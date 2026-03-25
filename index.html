@@ -222,6 +222,16 @@ button{cursor:pointer;border:none;background:none;}
 .btn-create:hover{background:var(--accent2);}
 .btn-create:disabled{opacity:0.5;cursor:not-allowed;}
 
+/* STEP WIZARD */
+.step-dot{width:26px;height:26px;border-radius:50%;background:var(--surface3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:var(--text3);font-family:var(--mono);flex-shrink:0;transition:all 0.2s;}
+.step-dot.active{background:var(--accent);border-color:var(--accent);color:#0d0d0d;}
+.step-dot.done{background:var(--green-bg);border-color:var(--green);color:var(--green);}
+.step-line{flex:1;height:1px;background:var(--border2);}
+.step-line.done{background:var(--accent);}
+.priority-opt{padding:10px 12px;border:1px solid var(--border2);border-radius:var(--radius-sm);cursor:pointer;transition:all 0.12s;}
+.priority-opt:hover{border-color:var(--border2);background:var(--surface2);}
+.priority-opt.selected{border-color:var(--accent);background:var(--accent-bg);}
+
 /* MISC */
 .empty{text-align:center;padding:4rem 2rem;color:var(--text3);font-size:14px;}
 .empty-title{font-size:16px;font-weight:500;color:var(--text2);margin-bottom:6px;}
@@ -403,14 +413,99 @@ button{cursor:pointer;border:none;background:none;}
 
 <!-- MODALS -->
 <div class="modal-overlay" id="newProjModal">
-  <div class="modal">
-    <div class="modal-title">New project</div>
-    <div class="mf"><label>Project name</label><input type="text" id="np-title" placeholder="e.g. TikTok Shop launch" /></div>
-    <div class="mf"><label>Description</label><textarea id="np-desc" placeholder="What are you trying to accomplish?"></textarea></div>
-    <div class="mf"><label>Channel / area (optional)</label><input type="text" id="np-ch" placeholder="e.g. Amazon, Vivelle, Operations..." /></div>
-    <div class="modal-btns">
-      <button class="btn-cancel" onclick="closeModal('newProjModal')">Cancel</button>
-      <button class="btn-create" id="createBtn" onclick="createProject()">Create project</button>
+  <div class="modal" style="max-width:560px;">
+    <!-- Step indicators -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:2rem;">
+      <div class="step-dot active" id="sdot1">1</div>
+      <div class="step-line" id="sline1"></div>
+      <div class="step-dot" id="sdot2">2</div>
+      <div class="step-line" id="sline2"></div>
+      <div class="step-dot" id="sdot3">3</div>
+      <div style="margin-left:auto;font-size:11px;color:var(--text3);font-family:var(--mono);" id="stepLabel">Step 1 of 3</div>
+    </div>
+
+    <!-- STEP 1: Basics -->
+    <div id="step1">
+      <div class="modal-title">What are we building?</div>
+      <div class="mf"><label>Project name</label><input type="text" id="np-title" placeholder="e.g. TikTok Shop launch, Vivelle brand build..." /></div>
+      <div class="mf"><label>What are you trying to accomplish?</label><textarea id="np-desc" placeholder="Describe the goal in plain English. The more detail, the better your AI plan will be." style="min-height:90px;"></textarea></div>
+      <div class="mf"><label>Channel / area</label><input type="text" id="np-ch" placeholder="e.g. Amazon, TikTok Shop, Vivelle DTC, Operations..." /></div>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="closeModal('newProjModal')">Cancel</button>
+        <button class="btn-create" onclick="goStep(2)">Next →</button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Scope & Priority -->
+    <div id="step2" style="display:none;">
+      <div class="modal-title">Scope & priority</div>
+      <div class="mf">
+        <label>What is the deadline or target date?</label>
+        <input type="date" id="np-deadline" />
+      </div>
+      <div class="mf">
+        <label>Priority level</label>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px;">
+          <div class="priority-opt" data-val="high" onclick="selectPriority('high')">
+            <div style="font-size:13px;font-weight:500;color:var(--red);">High</div>
+            <div style="font-size:11px;color:var(--text3);">Urgent / critical</div>
+          </div>
+          <div class="priority-opt selected" data-val="mid" onclick="selectPriority('mid')">
+            <div style="font-size:13px;font-weight:500;color:var(--amber);">Medium</div>
+            <div style="font-size:11px;color:var(--text3);">Normal pace</div>
+          </div>
+          <div class="priority-opt" data-val="low" onclick="selectPriority('low')">
+            <div style="font-size:13px;font-weight:500;color:var(--text2);">Low</div>
+            <div style="font-size:11px;color:var(--text3);">When time permits</div>
+          </div>
+        </div>
+      </div>
+      <div class="mf">
+        <label>What does success look like?</label>
+        <textarea id="np-success" placeholder="e.g. First 10 orders placed, brand page live, inventory synced across all channels..." style="min-height:70px;"></textarea>
+      </div>
+      <div class="mf">
+        <label>Any blockers or dependencies you're aware of?</label>
+        <input type="text" id="np-blockers" placeholder="e.g. Waiting on brand approval, need designer, budget TBD..." />
+      </div>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="goStep(1)">← Back</button>
+        <button class="btn-create" onclick="goStep(3)">Next →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: Team & AI -->
+    <div id="step3" style="display:none;">
+      <div class="modal-title">Team & kickoff</div>
+      <div class="mf">
+        <label>Who's involved? (comma separated emails)</label>
+        <input type="text" id="np-team" placeholder="e.g. sarah@jacmel.com, mike@jacmel.com" />
+      </div>
+      <div class="mf">
+        <label>Who is the project owner / lead?</label>
+        <input type="text" id="np-owner-name" placeholder="e.g. Joseph" />
+      </div>
+      <div class="mf">
+        <label>Generate an AI phase plan on creation?</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;">
+          <div class="priority-opt selected" data-ai="yes" onclick="selectAI('yes')">
+            <div style="font-size:13px;font-weight:500;color:var(--accent);">Yes — generate plan</div>
+            <div style="font-size:11px;color:var(--text3);">AI builds phases from your goal</div>
+          </div>
+          <div class="priority-opt" data-ai="no" onclick="selectAI('no')">
+            <div style="font-size:13px;font-weight:500;color:var(--text2);">No — start blank</div>
+            <div style="font-size:11px;color:var(--text3);">I'll add phases manually</div>
+          </div>
+        </div>
+      </div>
+      <div class="mf">
+        <label>Any additional context for the AI?</label>
+        <textarea id="np-context" placeholder="Budget range, constraints, specific requirements, brand guidelines..." style="min-height:60px;"></textarea>
+      </div>
+      <div class="modal-btns">
+        <button class="btn-cancel" onclick="goStep(2)">← Back</button>
+        <button class="btn-create" id="createBtn" onclick="createProject()">Create project</button>
+      </div>
     </div>
   </div>
 </div>
@@ -496,20 +591,83 @@ async function loadProjs(){
   allProjs=[...(owned||[]),...shared].filter(p=>{if(seen.has(p.id))return false;seen.add(p.id);return true;});
   document.getElementById('navCount').textContent=allProjs.length;
 }
+// PROJECT WIZARD
+let npPriority='mid', npAI='yes';
+function goStep(n){
+  if(n===2){
+    if(!document.getElementById('np-title').value.trim()){toast('Enter a project name');return;}
+    if(!document.getElementById('np-desc').value.trim()){toast('Describe what you want to accomplish');return;}
+  }
+  [1,2,3].forEach(i=>{
+    document.getElementById('step'+i).style.display=i===n?'':'none';
+    const dot=document.getElementById('sdot'+i);
+    dot.classList.toggle('active',i===n);
+    dot.classList.toggle('done',i<n);
+    if(i<3){const line=document.getElementById('sline'+i);line.classList.toggle('done',i<n);}
+  });
+  document.getElementById('stepLabel').textContent=`Step ${n} of 3`;
+}
+function selectPriority(val){
+  npPriority=val;
+  document.querySelectorAll('.priority-opt[data-val]').forEach(el=>el.classList.toggle('selected',el.dataset.val===val));
+}
+function selectAI(val){
+  npAI=val;
+  document.querySelectorAll('.priority-opt[data-ai]').forEach(el=>el.classList.toggle('selected',el.dataset.ai===val));
+}
 async function createProject(){
   const title=document.getElementById('np-title').value.trim();
   const desc=document.getElementById('np-desc').value.trim();
   const ch=document.getElementById('np-ch').value.trim();
-  if(!title){toast('Enter a project name');return;}
-  const btn=document.getElementById('createBtn');btn.disabled=true;
-  const{data,error}=await sb.from('projects').insert({title,description:desc,channel:ch,owner_id:CU.id}).select().single();
-  btn.disabled=false;
+  const deadline=document.getElementById('np-deadline').value||null;
+  const success=document.getElementById('np-success').value.trim();
+  const blockers=document.getElementById('np-blockers').value.trim();
+  const teamEmails=document.getElementById('np-team').value.trim();
+  const ownerName=document.getElementById('np-owner-name').value.trim();
+  const context=document.getElementById('np-context').value.trim();
+  const btn=document.getElementById('createBtn');btn.disabled=true;btn.textContent='Creating...';
+
+  // Build rich description
+  let richDesc=desc;
+  if(success)richDesc+=`\n\nSuccess looks like: ${success}`;
+  if(blockers)richDesc+=`\nBlockers: ${blockers}`;
+  if(ownerName)richDesc+=`\nLead: ${ownerName}`;
+
+  const{data,error}=await sb.from('projects').insert({
+    title,description:richDesc,channel:ch,owner_id:CU.id,
+    status:'active',notes:blockers?`Blockers / dependencies:\n${blockers}`:'',
+    priority:npPriority,deadline
+  }).select().single();
+  btn.disabled=false;btn.textContent='Create project';
   if(error){toast('Error: '+error.message);return;}
+
   await sb.from('activity').insert({project_id:data.id,user_id:CU.id,text:`${CP.name} created this project`});
+
+  // Invite team members
+  if(teamEmails){
+    const emails=teamEmails.split(',').map(e=>e.trim().toLowerCase()).filter(Boolean);
+    for(const email of emails){
+      const{data:prof}=await sb.from('profiles').select('id,name').eq('email',email).single();
+      if(prof&&prof.id!==CU.id){
+        await sb.from('project_members').insert({project_id:data.id,user_id:prof.id}).catch(()=>{});
+        await sb.from('activity').insert({project_id:data.id,user_id:CU.id,text:`${CP.name} added ${prof.name} to the project`});
+      }
+    }
+  }
+
   closeModal('newProjModal');
-  ['np-title','np-desc','np-ch'].forEach(id=>document.getElementById(id).value='');
+  // Reset form
+  ['np-title','np-desc','np-ch','np-deadline','np-success','np-blockers','np-team','np-owner-name','np-context'].forEach(id=>document.getElementById(id).value='');
+  npPriority='mid';npAI='yes';goStep(1);
+
   await loadProjs();
   openProj(data.id);
+
+  // Generate AI plan if requested
+  if(npAI==='yes'||document.querySelector('.priority-opt[data-ai="yes"]')?.classList.contains('selected')){
+    const aiGoal=`${desc}${success?' Goal: '+success:''}${context?' Additional context: '+context:''}`;
+    await autoGeneratePlan(data.id,title,ch,aiGoal);
+  }
   toast('Project created');
 }
 async function openProj(id){
@@ -787,7 +945,23 @@ async function generatePlan(){
   finally{btn.disabled=false;think.style.display='none';}
 }
 
-// UTILS
+async function autoGeneratePlan(projId,title,channel,goal){
+  const prompt=`You are a business operations expert for Jacmel Jewelry — wholesale accessories on Amazon, Walmart, Target, Macy's, Nordstrom, TikTok Shop. Licensed brands: Disney, Hello Kitty, Juicy Couture, Jessica Simpson. DTC brand: Vivelle.\nProject: "${title}" (${channel||'general'})\nGoal: "${goal}"\nReturn ONLY raw JSON array. Each item: {"name":string,"tasks":[{"text":string,"priority":"high"|"mid"|"low"}]}. 3-5 phases, 3-6 tasks each. Be specific and actionable for this business. No markdown, no preamble.`;
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,messages:[{role:'user',content:prompt}]})});
+    const data=await res.json();
+    const text=data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
+    const phases=JSON.parse(text);
+    let pos=0;
+    for(const ph of phases){
+      const{data:np}=await sb.from('phases').insert({name:ph.name,project_id:projId,position:pos++,open:true}).select().single();
+      if(np&&ph.tasks){let tp=0;for(const t of ph.tasks)await sb.from('tasks').insert({text:t.text,priority:t.priority,phase_id:np.id,project_id:projId,done:false,position:tp++});}
+    }
+    await sb.from('activity').insert({project_id:projId,user_id:CU.id,text:`AI generated initial project plan`});
+    await renderPhases();await updateProg();
+    toast('AI plan generated');
+  }catch(e){toast('Project created — AI plan failed, use generator inside');}
+}
 function ini(n){return(n||'?').split(' ').map(x=>x[0]).slice(0,2).join('').toUpperCase();}
 function ago(ts){const d=Date.now()-new Date(ts).getTime();if(d<60000)return'just now';if(d<3600000)return`${Math.floor(d/60000)}m ago`;if(d<86400000)return`${Math.floor(d/3600000)}h ago`;return`${Math.floor(d/86400000)}d ago`;}
 function toast(msg){const el=document.createElement('div');el.className='toast';el.textContent=msg;document.getElementById('toastWrap').appendChild(el);setTimeout(()=>el.remove(),3000);}
