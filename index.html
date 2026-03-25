@@ -1219,7 +1219,7 @@ Be direct, specific, and actionable. Reference actual task names and project det
 
   try{
     appendAIMsg('Thinking...','assistant','thinking');
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:context,messages:[{role:'user',content:msg}]})});
+    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:400,system:context,messages:[{role:'user',content:msg}]})});
     const data=await res.json();
     const reply=data.content?.map(i=>i.text||'').join('')||'Could not get a response.';
     removeThinking();appendAIMsg(reply,'assistant');
@@ -1263,7 +1263,7 @@ In progress: ${inprog.map(t=>t.text).join(', ')||'none'}
 Write 3-4 sentences: what's done, what needs immediate attention, and one key recommendation. Be direct and specific.`;
 
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:200,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     const summary=data.content?.map(i=>i.text||'').join('')||'Could not generate summary.';
     document.getElementById('dailySummaryBox').textContent=summary;
@@ -1278,7 +1278,7 @@ Project: "${title}" (${channel||'general'})
 Full context: "${goal}"
 Create a thorough, specific project plan. Return ONLY raw JSON array. Each item: {"name":string,"tasks":[{"text":string,"priority":"high"|"mid"|"low","estimated_hours":number}]}. 4-6 phases, 4-7 tasks each. Be extremely specific to this business and goal. No markdown, no preamble.`;
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
+    const res=await fetch('/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:2000,messages:[{role:'user',content:prompt}]})});
     const data=await res.json();
     const text=data.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim();
     const phases=JSON.parse(text);
