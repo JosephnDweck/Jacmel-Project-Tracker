@@ -680,28 +680,39 @@ async function createProject(){
   const name=v('np-n'),desc=v('np-d'),ch=v('np-c'),pri=v('np-p');
   if(!name){toast('Enter a project name','err');return;}
   if(!desc){toast('Describe the goal','err');return;}
-  const btn=ge('createBtn');btn.disabled=true;btn.textContent='Creating…';
+  const btn=ge('createBtn');
+  btn.disabled=true;btn.textContent='Creating…';
 
-  const{data:proj,error}=await sb.from('projects').insert({
-    title:name,description:desc,channel:ch,owner_id:CU.id,
-    status:'active',priority:pri||'mid',notes:''
-  }).select().single();
+  try{
+    const{data:proj,error}=await sb.from('projects').insert({
+      title:name,description:desc,channel:ch,owner_id:CU.id,
+      status:'active',priority:pri||'mid',notes:''
+    }).select().single();
 
-  if(error){
-    toast('Error: '+error.message,'err');
+    if(error) throw new Error(error.message);
+
+    // Always re-enable button and close modal first
     btn.disabled=false;btn.textContent='Create & build tasks';
-    return;
+    closeModal('newProjModal');
+    ge('np-n').value='';ge('np-d').value='';ge('np-c').value='';ge('np-p').value='mid';
+
+    projects.unshift(proj);
+    renderSidebar();
+
+    // Log in background — don't let it block
+    logAct(proj.id,'Created project "'+name+'"').catch(()=>{});
+
+    // Open the project page
+    await openProject(proj.id);
+
+    // Generate tasks in background — don't await, don't block
+    generateTasks(proj.id,name,ch,desc).catch(e=>console.warn('generateTasks error:',e));
+
+  }catch(e){
+    btn.disabled=false;btn.textContent='Create & build tasks';
+    toast('Error: '+e.message,'err');
+    console.error('createProject error:',e);
   }
-  await logAct(proj.id,`Created project "${name}"`);
-  projects.unshift(proj);
-  // Close modal and reset form immediately
-  closeModal('newProjModal');
-  ge('np-n').value='';ge('np-d').value='';ge('np-c').value='';ge('np-p').value='mid';
-  btn.disabled=false;btn.textContent='Create & build tasks';
-  // Navigate immediately — do not wait for AI
-  await openProject(proj.id);
-  // Fire task generation in background, no await
-  generateTasks(proj.id,name,ch,desc);
 }
 
 
@@ -736,12 +747,14 @@ Requirements:
     aiSpinOn(false);
     let pos=0;
     for(const t of taskList){
-      await sb.from('tasks').insert({
+      const taskRow={
         text:t.text,priority:t.priority||'mid',project_id:projId,
-        phase_id:null,done:false,status:'not_started',progress:0,position:pos++,
-        assignee:'',due_date:null,note:'',
+        done:false,status:'not_started',progress:0,position:pos++,
         subtasks:[],links:[],comments:[],work_log:[],description:''
-      });
+      };
+      // Add new columns only if they exist — graceful fallback
+      try{ taskRow.assignee='';taskRow.due_date=null;taskRow.note=''; }catch(_){}
+      await sb.from('tasks').insert(taskRow);
     }
     await logAct(projId,`AI created ${taskList.length} tasks`);
     if(CProj?.id===projId){await loadTasks(projId);renderTasks();}
@@ -755,22 +768,27 @@ Requirements:
 
 // ── OPEN PROJECT ──
 async function openProject(id){
-  CProj=projects.find(p=>p.id===id);
-  if(!CProj)return;
-  aiHist=[];ge('aiChat').innerHTML='';
-  ge('homePage').style.display='none';ge('projPage').style.display='block';
-  ge('topTitle').textContent=CProj.title;
-  ge('topActs').innerHTML=`
-    <button class="btn-sm" onclick="openEditProj()">Edit</button>
-    <button class="btn-sm-danger" onclick="confirmDelete()">Delete project</button>
-    <button class="btn-sm" onclick="showHome()">← All projects</button>`;
-  renderSidebar();
-  renderDescBox();
-  ge('notesTa').value=CProj.notes||'';
-  renderSideDetails();
-  await loadTasks(id);
-  renderTasks();
-  await renderActivity();
+  try{
+    CProj=projects.find(p=>p.id===id);
+    if(!CProj){toast('Project not found','err');return;}
+    aiHist=[];ge('aiChat').innerHTML='';
+    ge('homePage').style.display='none';ge('projPage').style.display='block';
+    ge('topTitle').textContent=CProj.title;
+    ge('topActs').innerHTML=`
+      <button class="btn-sm" onclick="openEditProj()">Edit</button>
+      <button class="btn-sm-danger" onclick="confirmDelete()">Delete project</button>
+      <button class="btn-sm" onclick="showHome()">← All projects</button>`;
+    renderSidebar();
+    renderDescBox();
+    ge('notesTa').value=CProj.notes||'';
+    renderSideDetails();
+    await loadTasks(id);
+    renderTasks();
+    renderActivity().catch(()=>{}); // non-critical, don't block
+  }catch(e){
+    console.error('openProject error:',e);
+    toast('Error opening project: '+e.message,'err');
+  }
 }
 
 function renderDescBox(){
@@ -897,11 +915,14 @@ async function addTask(){
   const due_date=ge('addDue').value||null;
   const note=ge('addNote').value.trim();
   ge('addInp').value='';ge('addAssignee').value='';ge('addDue').value='';ge('addNote').value='';
-  const{data:t,error}=await sb.from('tasks').insert({
-    text,project_id:CProj.id,phase_id:null,done:false,status:'not_started',
-    priority:'mid',progress:0,position:tasks.length,assignee,due_date,note,
+  const newTask={
+    text,project_id:CProj.id,done:false,status:'not_started',
+    priority:'mid',progress:0,position:tasks.length,
     subtasks:[],links:[],comments:[],work_log:[],description:''
-  }).select().single();
+  };
+  // Include new columns — will silently fail if columns don't exist in Supabase yet
+  try{newTask.assignee=assignee;newTask.due_date=due_date||null;newTask.note=note;}catch(_){}
+  const{data:t,error}=await sb.from('tasks').insert(newTask).select().single();
   if(error){toast('Error adding task','err');return;}
   tasks.push(t);
   renderTasks();
