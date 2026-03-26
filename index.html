@@ -205,31 +205,57 @@ button{cursor:pointer;border:none;background:none;color:inherit}
 .tasks-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:.65rem}
 .tasks-lbl{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.1em}
 .tasks-ct{font-size:11px;font-family:var(--mono);color:var(--text3)}
-.task-list{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);box-shadow:var(--shadow);overflow:hidden}
-.task-item{display:flex;align-items:flex-start;gap:11px;padding:12px 14px;border-bottom:1px solid var(--border);transition:background .1s}
-.task-item:last-child{border-bottom:none}
-.task-item:hover{background:var(--off)}
-.task-chk{width:19px;height:19px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s;background:white}
+.task-list{display:flex;flex-direction:column;gap:0}
+.task-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:8px;overflow:hidden;box-shadow:var(--shadow);transition:box-shadow .15s}
+.task-card:hover{box-shadow:var(--shadow2)}
+.task-card.done-card{opacity:.7}
+.task-top{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;cursor:pointer}
+.task-chk{width:20px;height:20px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all .15s;background:white}
 .task-chk:hover{border-color:var(--green)}
 .task-chk.on{background:var(--green);border-color:var(--green)}
 .task-chk svg{display:none;width:10px;height:10px;color:white}
 .task-chk.on svg{display:block;animation:checkpop .2s ease}
-.task-body{flex:1;min-width:0}
-.task-txt{font-size:14px;color:var(--text);line-height:1.45;cursor:default;word-break:break-word}
-.task-txt.done{color:var(--text3);text-decoration:line-through}
-.task-edit-inp{width:100%;font-size:14px;color:var(--text);line-height:1.45;border:none;border-bottom:1.5px solid var(--text);outline:none;background:transparent;padding:0;font-family:var(--font)}
-.task-acts{display:flex;gap:4px;opacity:0;transition:opacity .12s;flex-shrink:0;margin-top:1px}
-.task-item:hover .task-acts{opacity:1}
-.task-act{padding:3px 7px;font-size:11px;color:var(--text3);border:1px solid transparent;border-radius:6px;transition:all .12s}
+.task-main{flex:1;min-width:0}
+.task-title-row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.task-txt{font-size:14px;font-weight:500;color:var(--text);line-height:1.45;word-break:break-word}
+.task-txt.done{color:var(--text3);text-decoration:line-through;font-weight:400}
+.task-edit-inp{font-size:14px;font-weight:500;color:var(--text);line-height:1.45;border:none;border-bottom:1.5px solid var(--text);outline:none;background:transparent;padding:0;font-family:var(--font);width:100%}
+.task-meta{display:flex;align-items:center;gap:8px;margin-top:5px;flex-wrap:wrap}
+.task-assignee-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:500;color:var(--text2);background:var(--off);border:1px solid var(--border);border-radius:20px;padding:2px 8px;font-family:var(--mono)}
+.task-note-preview{font-size:12px;color:var(--text3);font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px}
+.task-acts{display:flex;gap:4px;flex-shrink:0}
+.task-act{padding:3px 8px;font-size:11px;color:var(--text3);border:1px solid transparent;border-radius:6px;transition:all .12s}
 .task-act:hover{color:var(--text);border-color:var(--border);background:var(--off)}
 .task-act.del:hover{color:var(--red);border-color:var(--red);background:var(--red-bg)}
+.task-expand{display:none;border-top:1px solid var(--border);padding:12px 14px 14px 46px;background:var(--off)}
+.task-expand.open{display:block}
+.exp-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.exp-field label{display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:5px}
+.exp-input{width:100%;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--text);font-family:var(--font);transition:border-color .15s}
+.exp-input:focus{outline:none;border-color:var(--text)}
+.exp-note{width:100%;padding:8px 10px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--text);font-family:var(--font);resize:none;min-height:70px;line-height:1.6;transition:border-color .15s}
+.exp-note:focus{outline:none;border-color:var(--text)}
+.exp-save-row{display:flex;justify-content:flex-end;margin-top:8px}
+.btn-exp-save{padding:6px 14px;font-size:12px;font-weight:600;background:var(--text);color:white;border-radius:var(--r);transition:background .12s}
+.btn-exp-save:hover{background:#2d2b26}
 
-/* Add task row */
-.add-row{display:flex;align-items:center;gap:10px;padding:11px 14px;background:var(--white);border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r2) var(--r2);transition:background .12s}
-.add-row:focus-within{background:var(--off)}
-.add-plus{width:19px;height:19px;border-radius:50%;border:1.5px dashed var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all .15s}
-.add-row:focus-within .add-plus{border-color:var(--text);color:var(--text);border-style:solid}
+/* Add task */
+.add-task-box{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);box-shadow:var(--shadow);overflow:hidden;margin-top:4px}
+.add-task-main{display:flex;align-items:center;gap:10px;padding:12px 14px}
+.add-plus{width:20px;height:20px;border-radius:50%;border:1.5px dashed var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:var(--text3);transition:all .15s}
+.add-task-box:focus-within .add-plus{border-color:var(--text);color:var(--text);border-style:solid}
 .add-inp{flex:1;border:none;outline:none;background:transparent;font-size:14px;color:var(--text)}
+.add-task-details{display:none;padding:8px 14px 12px 44px;border-top:1px solid var(--border);background:var(--off)}
+.add-task-box:focus-within .add-task-details{display:block}
+.add-details-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px}
+.add-detail-field label{display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.add-detail-input{width:100%;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--text);font-family:var(--font);transition:border-color .15s}
+.add-detail-input:focus{outline:none;border-color:var(--text)}
+.add-note-ta{width:100%;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--text);font-family:var(--font);resize:none;min-height:58px;line-height:1.6;margin-bottom:8px;transition:border-color .15s}
+.add-note-ta:focus{outline:none;border-color:var(--text)}
+.add-submit-row{display:flex;justify-content:flex-end}
+.btn-add-task{padding:7px 16px;font-size:13px;font-weight:600;background:var(--text);color:white;border-radius:var(--r);transition:background .12s}
+.btn-add-task:hover{background:#2d2b26}
 
 /* Side */
 .side-sec{margin-bottom:1.4rem}
@@ -409,12 +435,25 @@ button{cursor:pointer;border:none;background:none;color:inherit}
                 <span class="tasks-lbl">Tasks</span>
                 <span class="tasks-ct" id="tasksCt">0 / 0</span>
               </div>
-              <div class="task-list" id="taskList"></div>
-              <div class="add-row">
-                <div class="add-plus">
-                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 1v6M1 4h6"/></svg>
+              <div id="taskList"></div>
+              <!-- Add task box -->
+              <div class="add-task-box">
+                <div class="add-task-main">
+                  <div class="add-plus">
+                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 1v6M1 4h6"/></svg>
+                  </div>
+                  <input class="add-inp" id="addInp" placeholder="Add a task… (press Enter or fill in details below)"/>
                 </div>
-                <input class="add-inp" id="addInp" placeholder="Add a task…" onkeydown="if(event.key==='Enter')addTask()"/>
+                <div class="add-task-details">
+                  <div class="add-details-row">
+                    <div class="add-detail-field"><label>Assigned to</label><input class="add-detail-input" id="addAssignee" placeholder="Name"/></div>
+                    <div class="add-detail-field"><label>Due date</label><input class="add-detail-input" type="date" id="addDue"/></div>
+                  </div>
+                  <textarea class="add-note-ta" id="addNote" placeholder="Notes (optional)…"></textarea>
+                  <div class="add-submit-row">
+                    <button class="btn-add-task" onclick="addTask()">Add task</button>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -467,9 +506,8 @@ button{cursor:pointer;border:none;background:none;color:inherit}
         <option value="low">Low — when able</option>
       </select>
     </div>
-    <div class="gen-box hidden" id="genBox">
-      <div class="gen-bar-bg"><div class="gen-bar-fill" id="genFill" style="width:5%"></div></div>
-      <div class="gen-status" id="genSt">Building your task list…</div>
+    <div style="background:var(--off);border:1px solid var(--border);border-radius:var(--r);padding:10px 12px;margin-top:4px;">
+      <div style="font-size:12px;color:var(--text2);line-height:1.5">✦ After creating, the AI will automatically build a full task list based on your description. This happens in the background — you won't have to wait.</div>
     </div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal('newProjModal')">Cancel</button>
@@ -634,36 +672,38 @@ function showHome(){
   ge('homePage').style.display='block';ge('projPage').style.display='none';
   ge('topTitle').textContent='Projects';ge('topActs').innerHTML='';
   renderSidebar();
+  renderHome(); // render from in-memory projects array immediately
 }
 
 // ── CREATE PROJECT ──
 async function createProject(){
   const name=v('np-n'),desc=v('np-d'),ch=v('np-c'),pri=v('np-p');
   if(!name){toast('Enter a project name','err');return;}
-  if(!desc){toast('Describe the goal — the AI needs this to build your tasks','err');return;}
+  if(!desc){toast('Describe the goal','err');return;}
   const btn=ge('createBtn');btn.disabled=true;btn.textContent='Creating…';
-  ge('genBox').classList.remove('hidden');setGen(8,'Creating project…');
 
   const{data:proj,error}=await sb.from('projects').insert({
     title:name,description:desc,channel:ch,owner_id:CU.id,
     status:'active',priority:pri||'mid',notes:''
   }).select().single();
 
-  if(error){toast('Error: '+error.message,'err');btn.disabled=false;btn.textContent='Create & build tasks';ge('genBox').classList.add('hidden');return;}
+  if(error){
+    toast('Error: '+error.message,'err');
+    btn.disabled=false;btn.textContent='Create & build tasks';
+    return;
+  }
   await logAct(proj.id,`Created project "${name}"`);
   projects.unshift(proj);
-
-  // Close modal, reset
+  // Close modal and reset form immediately
   closeModal('newProjModal');
   ge('np-n').value='';ge('np-d').value='';ge('np-c').value='';ge('np-p').value='mid';
-  ge('genBox').classList.add('hidden');ge('genFill').style.width='5%';
   btn.disabled=false;btn.textContent='Create & build tasks';
-
+  // Navigate immediately — do not wait for AI
   await openProject(proj.id);
-  await generateTasks(proj.id,name,ch,desc);
+  // Fire task generation in background, no await
+  generateTasks(proj.id,name,ch,desc);
 }
 
-function setGen(pct,st){ge('genFill').style.width=pct+'%';if(st)ge('genSt').textContent=st;}
 
 async function generateTasks(projId,title,channel,desc){
   aiAppend(`Building your task list for "${title}"…`,'bot');
@@ -699,6 +739,7 @@ Requirements:
       await sb.from('tasks').insert({
         text:t.text,priority:t.priority||'mid',project_id:projId,
         phase_id:null,done:false,status:'not_started',progress:0,position:pos++,
+        assignee:'',due_date:null,note:'',
         subtasks:[],links:[],comments:[],work_log:[],description:''
       });
     }
@@ -768,59 +809,132 @@ function renderTasks(){
   const pct=total?Math.round(done/total*100):0;
   ge('progPct').textContent=pct;
   ge('progFill').style.width=pct+'%';
-  ge('progFill').className=`prog-fill${pct===100&&total>0?' done':''}`;
+  ge('progFill').className='prog-fill'+(pct===100&&total>0?' done':'');
   ge('doneCt').textContent=done;
   ge('totalCt').textContent=total;
   ge('leftCt').textContent=total-done;
-  ge('tasksCt').textContent=`${done} / ${total}`;
+  ge('tasksCt').textContent=done+' / '+total;
 
   if(!tasks.length){
-    ge('taskList').innerHTML=`<div style="padding:1.5rem;font-size:13px;color:var(--text3)">No tasks yet. Add one below or use the AI to generate a full task list.</div>`;
+    ge('taskList').innerHTML='<div style="padding:1rem 0 1.5rem;font-size:13px;color:var(--text3)">No tasks yet. Type above to add one, or let the AI generate a task list for you.</div>';
     return;
   }
-  ge('taskList').innerHTML=tasks.map(t=>`
-    <div class="task-item" id="ti-${t.id}">
-      <div class="task-chk ${t.done?'on':''}" onclick="toggleTask('${t.id}')">
-        <svg viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 4l2.5 3L9 1"/></svg>
+
+  ge('taskList').innerHTML=tasks.map(t=>{
+    const assignee=t.assignee||'';
+    const note=t.note||'';
+    const due=t.due_date||'';
+    const notePreview=note?note.slice(0,60)+(note.length>60?'…':''):'';
+    const dueStr=due?new Date(due+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+    return `<div class="task-card ${t.done?'done-card':''}" id="tc-${t.id}">
+      <div class="task-top" onclick="toggleExpand('${t.id}')">
+        <div class="task-chk ${t.done?'on':''}" onclick="event.stopPropagation();toggleTask('${t.id}')">
+          <svg viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 4l2.5 3L9 1"/></svg>
+        </div>
+        <div class="task-main">
+          <div class="task-title-row">
+            <div class="task-txt ${t.done?'done':''}" id="tt-${t.id}">${esc(t.text)}</div>
+            <div class="task-acts">
+              <button class="task-act" onclick="event.stopPropagation();startTaskEdit('${t.id}')">Edit</button>
+              <button class="task-act del" onclick="event.stopPropagation();deleteTask('${t.id}')">Delete</button>
+            </div>
+          </div>
+          <div class="task-meta">
+            ${assignee?'<span class="task-assignee-badge">👤 '+esc(assignee)+'</span>':''}
+            ${dueStr?'<span style="font-size:11px;color:var(--text3);font-family:var(--mono)">📅 '+dueStr+'</span>':''}
+            ${notePreview?'<span class="task-note-preview">"'+esc(notePreview)+'"</span>':''}
+          </div>
+        </div>
       </div>
-      <div class="task-body">
-        <div class="task-txt ${t.done?'done':''}" id="tt-${t.id}">${esc(t.text)}</div>
+      <div class="task-expand" id="te-${t.id}">
+        <div class="exp-row">
+          <div class="exp-field">
+            <label>Assigned to</label>
+            <input class="exp-input" id="ea-${t.id}" value="${esc(assignee)}" placeholder="Name" onkeydown="if(event.key==='Enter')saveTaskDetails('${t.id}')"/>
+          </div>
+          <div class="exp-field">
+            <label>Due date</label>
+            <input class="exp-input" type="date" id="ed-${t.id}" value="${esc(due)}"/>
+          </div>
+        </div>
+        <div class="exp-field" style="margin-bottom:8px">
+          <label>Notes</label>
+          <textarea class="exp-note" id="en-${t.id}" placeholder="Add notes, links, context…">${esc(note)}</textarea>
+        </div>
+        <div class="exp-save-row">
+          <button class="btn-exp-save" onclick="saveTaskDetails('${t.id}')">Save</button>
+        </div>
       </div>
-      <div class="task-acts">
-        <button class="task-act" onclick="startTaskEdit('${t.id}')">Edit</button>
-        <button class="task-act del" onclick="deleteTask('${t.id}')">Delete</button>
-      </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+}
+
+function toggleExpand(id){
+  const te=ge('te-'+id);
+  if(!te)return;
+  const isOpen=te.classList.contains('open');
+  // Close all others
+  document.querySelectorAll('.task-expand.open').forEach(el=>el.classList.remove('open'));
+  if(!isOpen)te.classList.add('open');
+}
+
+async function saveTaskDetails(id){
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  const assignee=(ge('ea-'+id)?.value||t.assignee||'').trim();
+  const due_date=ge('ed-'+id)?.value||null;
+  const note=(ge('en-'+id)?.value||t.note||'');
+  t.assignee=assignee;t.due_date=due_date||null;t.note=note;
+  await sb.from('tasks').update({assignee,due_date:due_date||null,note}).eq('id',id);
+  renderTasks();
+  // Re-open the expanded card after re-render
+  setTimeout(()=>{const te=ge('te-'+id);if(te)te.classList.add('open');},10);
+  toast('Saved','ok');
 }
 
 async function addTask(){
   const text=v('addInp');if(!text)return;
-  ge('addInp').value='';
+  const assignee=v('addAssignee');
+  const due_date=ge('addDue').value||null;
+  const note=ge('addNote').value.trim();
+  ge('addInp').value='';ge('addAssignee').value='';ge('addDue').value='';ge('addNote').value='';
   const{data:t,error}=await sb.from('tasks').insert({
     text,project_id:CProj.id,phase_id:null,done:false,status:'not_started',
-    priority:'mid',progress:0,position:tasks.length,
+    priority:'mid',progress:0,position:tasks.length,assignee,due_date,note,
     subtasks:[],links:[],comments:[],work_log:[],description:''
   }).select().single();
   if(error){toast('Error adding task','err');return;}
   tasks.push(t);
   renderTasks();
-  await logAct(CProj.id,`Added task: "${text}"`);
+  await logAct(CProj.id,'Added task: "'+text+'"');
 }
+
+// Also allow Enter key from the title input to add quickly
+document.addEventListener('DOMContentLoaded',()=>{
+  const inp=ge('addInp');
+  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
+});
 
 async function toggleTask(id){
   const t=tasks.find(x=>x.id===id);if(!t)return;
   t.done=!t.done;t.status=t.done?'done':'not_started';
   await sb.from('tasks').update({done:t.done,status:t.status}).eq('id',id);
   renderTasks();
-  if(t.done)await logAct(CProj.id,`Completed: "${t.text}"`);
+  if(t.done)await logAct(CProj.id,'Completed: "'+t.text+'"');
 }
 
 function startTaskEdit(id){
   const t=tasks.find(x=>x.id===id);if(!t)return;
   const el=ge('tt-'+id);if(!el)return;
-  const currentText=t.text;
-  el.innerHTML=`<input class="task-edit-inp" value="${esc(currentText)}" onblur="finishTaskEdit('${id}',this.value,'${esc(currentText)}')" onkeydown="if(event.key==='Enter')this.blur();if(event.key==='Escape'){this.value='${esc(currentText)}';this.blur()}" onclick="event.stopPropagation()"/>`;
-  const inp=el.querySelector('input');inp.focus();inp.select();
+  const cur=t.text;
+  el.innerHTML='<input class="task-edit-inp" value="'+esc(cur)+'" />';
+  const inp=el.querySelector('input');
+  inp.focus();inp.select();
+  inp.addEventListener('blur',()=>finishTaskEdit(id,inp.value,cur));
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){inp.blur();}
+    if(e.key==='Escape'){inp.value=cur;inp.blur();}
+    e.stopPropagation();
+  });
 }
 
 async function finishTaskEdit(id,newText,oldText){
@@ -828,23 +942,23 @@ async function finishTaskEdit(id,newText,oldText){
   const t=tasks.find(x=>x.id===id);
   const el=ge('tt-'+id);
   if(!newText||newText===oldText){
-    if(el){el.className=`task-txt ${t?.done?'done':''}`;el.textContent=t?.text||oldText;}
+    if(el&&t){el.className='task-txt'+(t.done?' done':'');el.textContent=t.text||oldText;}
     return;
   }
   if(!t)return;
   t.text=newText;
   await sb.from('tasks').update({text:newText}).eq('id',id);
-  if(el){el.className=`task-txt ${t.done?'done':''}`;el.textContent=newText;}
+  if(el){el.className='task-txt'+(t.done?' done':'');el.textContent=newText;}
   toast('Task updated','ok');
 }
 
 async function deleteTask(id){
   const t=tasks.find(x=>x.id===id);if(!t)return;
-  if(!confirm(`Delete task "${t.text}"?`))return;
+  if(!confirm('Delete "'+t.text+'"?'))return;
   await sb.from('tasks').delete().eq('id',id);
   tasks=tasks.filter(x=>x.id!==id);
   renderTasks();
-  await logAct(CProj.id,`Deleted task: "${t.text}"`);
+  await logAct(CProj.id,'Deleted task: "'+t.text+'"');
   toast('Task deleted');
 }
 
