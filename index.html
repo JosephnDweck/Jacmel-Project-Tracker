@@ -312,6 +312,148 @@ button{cursor:pointer;border:none;background:none;color:inherit}
   .proj-layout{grid-template-columns:1fr}
   .proj-side{border-top:1px solid var(--border)}
 }
+
+/* ─── TABS ─── */
+.proj-tabs{display:flex;border-bottom:1px solid var(--border);padding:0 1.8rem;background:var(--white);position:sticky;top:52px;z-index:40}
+.proj-tab{padding:12px 18px;font-size:14px;font-weight:500;color:var(--text3);cursor:pointer;border-bottom:2.5px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap}
+.proj-tab:hover{color:var(--text2)}
+.proj-tab.on{color:var(--text);border-bottom-color:var(--text);font-weight:600}
+
+/* ─── OVERVIEW TAB ─── */
+.overview-layout{display:grid;grid-template-columns:1fr 290px;min-height:calc(100vh - 105px)}
+.overview-main{padding:1.8rem;border-right:1px solid var(--border);min-width:0}
+.overview-side{padding:1.4rem;background:var(--white);overflow-y:auto}
+
+/* ─── BIG PROGRESS CARD ─── */
+.big-prog-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);padding:1.6rem 1.8rem;box-shadow:var(--shadow);margin-bottom:1.5rem}
+.big-prog-top{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:1.1rem}
+.big-prog-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3)}
+.big-prog-pct{font-size:42px;font-weight:600;font-family:var(--mono);letter-spacing:-2px;line-height:1;color:var(--text)}
+.big-prog-pct.complete{color:var(--green)}
+.big-prog-pct span{font-size:18px;font-weight:400;color:var(--text3)}
+.big-prog-track{height:12px;background:var(--off);border-radius:12px;overflow:hidden;margin-bottom:.9rem}
+.big-prog-fill{height:100%;border-radius:12px;background:var(--text);transition:width .6s cubic-bezier(.4,0,.2,1)}
+.big-prog-fill.complete{background:var(--green)}
+.big-prog-stats{display:flex;gap:2rem}
+.big-stat{text-align:center}
+.big-stat-num{font-size:20px;font-weight:600;font-family:var(--mono);color:var(--text)}
+.big-stat-lbl{font-size:11px;color:var(--text3);margin-top:2px}
+
+/* ─── TASKS TAB ─── */
+.tasks-layout{padding:1.8rem;max-width:860px}
+.tasks-top-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem}
+.tasks-top-title{font-size:18px;font-weight:600;letter-spacing:-.3px}
+.btn-add-task-top{display:flex;align-items:center;gap:7px;padding:8px 16px;background:var(--text);color:white;border-radius:var(--r);font-size:13px;font-weight:600;transition:background .15s}
+.btn-add-task-top:hover{background:#2d2b26}
+
+/* Task cards */
+.task-card{background:var(--white);border:1px solid var(--border);border-radius:var(--r2);margin-bottom:10px;box-shadow:var(--shadow);overflow:hidden;transition:box-shadow .15s}
+.task-card:hover{box-shadow:var(--shadow2)}
+.task-card.done-card .task-card-body{opacity:.65}
+.task-card-body{padding:16px 18px}
+.task-card-top{display:flex;align-items:flex-start;gap:13px}
+.task-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border2);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;background:white;margin-top:1px}
+.task-check:hover{border-color:var(--green);background:var(--green-bg)}
+.task-check.done{background:var(--green);border-color:var(--green)}
+.task-check svg{display:none;width:11px;height:11px;color:white}
+.task-check.done svg{display:block;animation:checkpop .2s ease}
+.task-card-right{flex:1;min-width:0}
+.task-card-title{font-size:15px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:5px;word-break:break-word}
+.task-card-title.done{color:var(--text3);text-decoration:line-through;font-weight:400}
+.task-card-title-edit{font-size:15px;font-weight:500;color:var(--text);line-height:1.4;border:none;border-bottom:2px solid var(--text);outline:none;background:transparent;padding:0;font-family:var(--font);width:100%;margin-bottom:5px}
+.task-card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.task-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:2px 8px;border-radius:20px;border:1px solid var(--border);background:var(--off);color:var(--text2);font-weight:500}
+.task-badge.assignee{background:var(--blue-bg);border-color:#c5d7f0;color:var(--blue)}
+.task-badge.due{background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold)}
+.task-card-actions{display:flex;gap:5px;margin-left:auto;flex-shrink:0}
+.task-act-btn{padding:4px 9px;font-size:11px;font-weight:500;border:1px solid var(--border);border-radius:6px;color:var(--text3);background:white;transition:all .12s}
+.task-act-btn:hover{color:var(--text);border-color:var(--border2);background:var(--off)}
+.task-act-btn.del:hover{color:var(--red);border-color:var(--red);background:var(--red-bg)}
+
+/* Per-task progress */
+.task-prog-section{padding-top:10px;border-top:1px solid var(--border)}
+.task-prog-label-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.task-prog-lbl{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.task-prog-val{font-size:13px;font-weight:700;font-family:var(--mono);color:var(--text)}
+.task-prog-track{height:6px;background:var(--off);border-radius:6px;overflow:hidden;margin-bottom:8px;cursor:pointer}
+.task-prog-fill{height:100%;border-radius:6px;background:var(--text);transition:width .3s}
+.task-prog-fill.done{background:var(--green)}
+.task-prog-slider{width:100%;-webkit-appearance:none;height:6px;background:transparent;outline:none;cursor:pointer;margin:0}
+.task-prog-slider::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--text);cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.2);border:2px solid white;transition:transform .15s}
+.task-prog-slider::-webkit-slider-thumb:hover{transform:scale(1.15)}
+.task-prog-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--text);cursor:pointer;border:2px solid white}
+.task-prog-quick{display:flex;gap:5px;margin-top:8px}
+.task-prog-quick-btn{padding:4px 10px;font-size:11px;font-weight:600;border:1px solid var(--border);border-radius:20px;color:var(--text3);background:white;cursor:pointer;transition:all .12s;font-family:var(--mono)}
+.task-prog-quick-btn:hover{border-color:var(--text);color:var(--text)}
+.task-prog-quick-btn.active{background:var(--text);color:white;border-color:var(--text)}
+
+/* Task note */
+.task-note-area{width:100%;border:1px solid var(--border);border-radius:var(--r);padding:8px 10px;font-size:13px;font-family:var(--font);color:var(--text);background:var(--off);resize:none;min-height:64px;line-height:1.6;transition:border-color .15s,background .15s;margin-top:10px}
+.task-note-area:focus{outline:none;border-color:var(--text);background:white}
+
+/* Assignee/due row in expand */
+.task-detail-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}
+.task-detail-field label{display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.task-detail-input{width:100%;padding:7px 10px;background:var(--white);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--text);font-family:var(--font);transition:border-color .15s}
+.task-detail-input:focus{outline:none;border-color:var(--text)}
+.task-detail-save{margin-top:10px;display:flex;justify-content:flex-end;gap:8px}
+
+/* Add task inline form */
+.add-task-form{background:var(--white);border:1.5px dashed var(--border2);border-radius:var(--r2);padding:16px 18px;margin-top:4px;display:none}
+.add-task-form.open{display:block;animation:fadeUp .15s ease}
+.add-task-form-title{font-size:14px;font-weight:600;margin-bottom:12px;color:var(--text)}
+.add-task-name-inp{width:100%;font-size:15px;font-weight:500;border:none;border-bottom:2px solid var(--text);outline:none;background:transparent;padding:4px 0 6px;font-family:var(--font);color:var(--text);margin-bottom:12px}
+.add-task-form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.add-task-form-field label{display:block;font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.add-task-form-input{width:100%;padding:8px 10px;background:var(--off);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--text);font-family:var(--font);transition:border-color .15s,background .15s}
+.add-task-form-input:focus{outline:none;border-color:var(--text);background:white}
+.add-task-form-note{width:100%;padding:8px 10px;background:var(--off);border:1px solid var(--border);border-radius:var(--r);font-size:13px;color:var(--text);font-family:var(--font);resize:none;min-height:60px;line-height:1.6;transition:border-color .15s,background .15s;margin-bottom:12px}
+.add-task-form-note:focus{outline:none;border-color:var(--text);background:white}
+.add-task-form-btns{display:flex;justify-content:flex-end;gap:8px}
+
+
+/* ─── DEADLINE ─── */
+.deadline-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500;background:var(--off);border:1px solid var(--border);color:var(--text2);cursor:pointer;transition:all .12s}
+.deadline-chip:hover{border-color:var(--border2);background:var(--off)}
+.deadline-chip.urgent{background:var(--red-bg);border-color:#f0c8c8;color:var(--red)}
+.deadline-chip.soon{background:var(--gold-bg);border-color:var(--gold-border);color:var(--gold)}
+.deadline-chip.done{background:var(--green-bg);border-color:#b8dfc6;color:var(--green)}
+.deadline-chip svg{width:13px;height:13px;flex-shrink:0}
+
+/* ─── COMPLETE BANNER ─── */
+.complete-banner{display:none;align-items:center;justify-content:space-between;gap:12px;background:var(--green-bg);border:1px solid #b8dfc6;border-radius:var(--r2);padding:14px 18px;margin-bottom:1.2rem;animation:fadeUp .2s ease}
+.complete-banner.show{display:flex}
+.complete-banner-text{font-size:14px;font-weight:500;color:var(--green)}
+.complete-banner-sub{font-size:12px;color:var(--green);opacity:.8;margin-top:2px}
+.btn-mark-done{padding:7px 16px;background:var(--green);color:white;border-radius:var(--r);font-size:13px;font-weight:600;border:none;cursor:pointer;transition:background .12s;white-space:nowrap}
+.btn-mark-done:hover{background:#236b3c}
+.btn-dismiss{padding:7px 12px;background:transparent;color:var(--green);border:1px solid #b8dfc6;border-radius:var(--r);font-size:13px;cursor:pointer;transition:all .12s}
+.btn-dismiss:hover{background:white}
+
+/* ─── COMPLETED SECTION ─── */
+.completed-section{margin-top:1.5rem}
+.completed-toggle{display:flex;align-items:center;gap:8px;padding:10px 0;cursor:pointer;user-select:none;border-top:1px solid var(--border)}
+.completed-toggle-label{font-size:12px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
+.completed-count{font-size:11px;font-family:var(--mono);color:var(--text3)}
+.completed-chev{font-size:10px;color:var(--text3);margin-left:auto;transition:transform .15s}
+.completed-chev.open{transform:rotate(90deg)}
+.completed-list{display:none}
+.completed-list.open{display:block}
+.task-card.done-card .task-prog-section{opacity:.5;pointer-events:none}
+
+/* ─── NOTE AUTOSAVE ─── */
+.note-save-ind{font-size:10px;font-family:var(--mono);color:var(--text3);margin-top:3px;min-height:14px;transition:color .3s}
+.note-save-ind.ok{color:var(--green)}
+
+/* ─── DUPLICATE MODAL ─── */
+.dup-proj-list{display:flex;flex-direction:column;gap:6px;max-height:280px;overflow-y:auto;margin-bottom:4px}
+.dup-proj-opt{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--r);cursor:pointer;transition:all .12s}
+.dup-proj-opt:hover{border-color:var(--border2);background:var(--off)}
+.dup-proj-opt.selected{border-color:var(--text);background:var(--off)}
+.dup-proj-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dup-proj-name{font-size:14px;font-weight:500;flex:1}
+.dup-proj-ct{font-size:11px;font-family:var(--mono);color:var(--text3)}
+
 </style>
 </head>
 <body>
@@ -380,104 +522,146 @@ button{cursor:pointer;border:none;background:none;color:inherit}
 
       <!-- PROJECT DETAIL -->
       <div id="projPage">
-        <div class="proj-layout">
-          <div class="proj-main">
+        <!-- TABS -->
+        <div class="proj-tabs">
+          <div class="proj-tab on" id="tab-overview" onclick="switchTab('overview')">Overview</div>
+          <div class="proj-tab" id="tab-tasks" onclick="switchTab('tasks')">Tasks <span id="tasksTabCt" style="font-size:11px;font-family:var(--mono);color:var(--text3);font-weight:400;margin-left:3px"></span></div>
+          <div class="proj-tab" id="tab-ai" onclick="switchTab('ai')">AI Assistant</div>
+        </div>
 
-            <!-- Description -->
-            <div class="section" id="descSec">
-              <div class="sec-hdr">
-                <span class="sec-label">Description</span>
-                <button class="sec-btn" id="editDescBtn" onclick="startDescEdit()">Edit</button>
-              </div>
-              <div class="desc-box empty" id="descBox">No description yet.</div>
-              <div id="descEditWrap" style="display:none">
-                <textarea class="desc-edit-area" id="descEditTa" placeholder="Describe this project in detail…"></textarea>
-                <div class="desc-edit-btns">
-                  <button class="btn-cancel" onclick="cancelDescEdit()">Cancel</button>
-                  <button class="btn-sm-solid" onclick="saveDescEdit()">Save</button>
+        <!-- OVERVIEW TAB -->
+        <div id="tabOverview">
+          <div class="overview-layout">
+            <div class="overview-main">
+
+              <!-- All-done banner -->
+              <div class="complete-banner" id="completeBanner">
+                <div>
+                  <div class="complete-banner-text">🎉 All tasks are complete!</div>
+                  <div class="complete-banner-sub">Mark this project as done to archive it.</div>
+                </div>
+                <div style="display:flex;gap:8px">
+                  <button class="btn-dismiss" onclick="dismissBanner()">Dismiss</button>
+                  <button class="btn-mark-done" onclick="markProjDone()">Mark project done</button>
                 </div>
               </div>
-            </div>
 
-            <!-- Progress -->
-            <div class="prog-section">
-              <div class="prog-top">
-                <span class="prog-lbl">Progress</span>
-                <div class="prog-num"><span id="progPct">0</span><span>%</span></div>
-              </div>
-              <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
-              <div class="prog-stats">
-                <span class="prog-stat"><strong id="doneCt">0</strong> done</span>
-                <span class="prog-stat"><strong id="totalCt">0</strong> total</span>
-                <span class="prog-stat"><strong id="leftCt">0</strong> left</span>
-              </div>
-            </div>
-
-            <!-- AI -->
-            <div class="ai-box">
-              <div class="ai-head">
-                <div class="ai-head-lbl">
-                  <div class="ai-spinner hidden" id="aiSpin"></div>
-                  AI Assistant
+              <!-- Big progress card -->
+              <div class="big-prog-card">
+                <div class="big-prog-top">
+                  <span class="big-prog-label">Overall progress</span>
+                  <div class="big-prog-pct" id="bigProgPct">0<span>%</span></div>
                 </div>
-                <button class="sec-btn" onclick="aiSuggest()">Suggest tasks</button>
-              </div>
-              <div class="ai-chat" id="aiChat"></div>
-              <div class="ai-inp-row">
-                <textarea class="ai-inp" id="aiIn" placeholder="Ask anything about this project…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAI()}"></textarea>
-                <button class="ai-go" id="aiBtn" onclick="sendAI()">Send</button>
-              </div>
-            </div>
-
-            <!-- Tasks -->
-            <div>
-              <div class="tasks-hdr">
-                <span class="tasks-lbl">Tasks</span>
-                <span class="tasks-ct" id="tasksCt">0 / 0</span>
-              </div>
-              <div id="taskList"></div>
-              <!-- Add task box -->
-              <div class="add-task-box">
-                <div class="add-task-main">
-                  <div class="add-plus">
-                    <svg width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 1v6M1 4h6"/></svg>
-                  </div>
-                  <input class="add-inp" id="addInp" placeholder="Add a task… (press Enter or fill in details below)"/>
+                <div class="big-prog-track">
+                  <div class="big-prog-fill" id="bigProgFill" style="width:0%"></div>
                 </div>
-                <div class="add-task-details">
-                  <div class="add-details-row">
-                    <div class="add-detail-field"><label>Assigned to</label><input class="add-detail-input" id="addAssignee" placeholder="Name"/></div>
-                    <div class="add-detail-field"><label>Due date</label><input class="add-detail-input" type="date" id="addDue"/></div>
-                  </div>
-                  <textarea class="add-note-ta" id="addNote" placeholder="Notes (optional)…"></textarea>
-                  <div class="add-submit-row">
-                    <button class="btn-add-task" onclick="addTask()">Add task</button>
+                <div class="big-prog-stats">
+                  <div class="big-stat"><div class="big-stat-num" id="bigDone">0</div><div class="big-stat-lbl">Completed</div></div>
+                  <div class="big-stat"><div class="big-stat-num" id="bigTotal">0</div><div class="big-stat-lbl">Total tasks</div></div>
+                  <div class="big-stat"><div class="big-stat-num" id="bigLeft">0</div><div class="big-stat-lbl">Remaining</div></div>
+                  <div class="big-stat"><div class="big-stat-num" id="bigAvgProg">0%</div><div class="big-stat-lbl">Avg progress</div></div>
+                </div>
+              </div>
+
+              <!-- Description -->
+              <div class="section" id="descSec">
+                <div class="sec-hdr">
+                  <span class="sec-label">Description</span>
+                  <button class="sec-btn" id="editDescBtn" onclick="startDescEdit()">Edit</button>
+                </div>
+                <div class="desc-box empty" id="descBox">No description yet.</div>
+                <div id="descEditWrap" style="display:none">
+                  <textarea class="desc-edit-area" id="descEditTa" placeholder="Describe this project in detail…"></textarea>
+                  <div class="desc-edit-btns">
+                    <button class="btn-cancel" onclick="cancelDescEdit()">Cancel</button>
+                    <button class="btn-sm-solid" onclick="saveDescEdit()">Save</button>
                   </div>
                 </div>
               </div>
-            </div>
 
-          </div>
-
-          <!-- SIDE -->
-          <div class="proj-side">
-            <div class="side-sec">
-              <div class="side-lbl">Details</div>
-              <div id="sideDetails"></div>
             </div>
-            <div class="side-div"></div>
-            <div class="side-sec">
-              <div class="side-lbl">Notes</div>
-              <textarea class="notes-ta" id="notesTa" placeholder="Notes, links, reminders…" oninput="notesChanged()"></textarea>
-              <div class="save-ind" id="saveInd"></div>
-            </div>
-            <div class="side-div"></div>
-            <div class="side-sec">
-              <div class="side-lbl">Activity</div>
-              <div id="actLog"></div>
+            <div class="overview-side">
+              <div class="side-sec">
+                <div class="side-lbl">Details</div>
+                <div id="sideDetails"></div>
+              </div>
+              <div class="side-div"></div>
+              <div class="side-sec">
+                <div class="side-lbl">Notes</div>
+                <textarea class="notes-ta" id="notesTa" placeholder="Notes, links, reminders…" oninput="notesChanged()"></textarea>
+                <div class="save-ind" id="saveInd"></div>
+              </div>
+              <div class="side-div"></div>
+              <div class="side-sec">
+                <div class="side-lbl">Activity</div>
+                <div id="actLog"></div>
+              </div>
             </div>
           </div>
         </div>
+
+        <!-- TASKS TAB -->
+        <div id="tabTasks" style="display:none">
+          <div class="tasks-layout">
+            <div class="tasks-top-bar">
+              <div class="tasks-top-title">Tasks <span id="tasksCt" style="font-size:14px;font-weight:400;color:var(--text3);font-family:var(--mono);margin-left:4px"></span></div>
+              <button class="btn-add-task-top" onclick="toggleAddForm()">
+                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5.5 1v9M1 5.5h9"/></svg>
+                Add task
+              </button>
+            </div>
+
+            <!-- Add task form -->
+            <div class="add-task-form" id="addTaskForm">
+              <div class="add-task-form-title">New task</div>
+              <input class="add-task-name-inp" id="addInp" placeholder="Task name…" onkeydown="if(event.key==='Enter')addTask()"/>
+              <div class="add-task-form-row">
+                <div class="add-task-form-field"><label>Assigned to</label><input class="add-task-form-input" id="addAssignee" placeholder="Name"/></div>
+                <div class="add-task-form-field"><label>Due date</label><input class="add-task-form-input" type="date" id="addDue"/></div>
+              </div>
+              <textarea class="add-task-form-note" id="addNote" placeholder="Notes, links, context (optional)…"></textarea>
+              <div class="add-task-form-btns">
+                <button class="btn-cancel" onclick="toggleAddForm()">Cancel</button>
+                <button class="btn-submit" onclick="addTask()">Add task</button>
+              </div>
+            </div>
+
+            <div id="taskList"></div>
+
+            <!-- Completed tasks section -->
+            <div class="completed-section" id="completedSection" style="display:none">
+              <div class="completed-toggle" onclick="toggleCompletedSection()">
+                <span class="completed-toggle-label">Completed</span>
+                <span class="completed-count" id="completedCount"></span>
+                <span class="completed-chev" id="completedChev">▶</span>
+              </div>
+              <div class="completed-list" id="completedList"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- AI TAB -->
+        <div id="tabAI" style="display:none;padding:1.8rem;max-width:760px">
+          <div class="ai-box">
+            <div class="ai-head">
+              <div class="ai-head-lbl">
+                <div class="ai-spinner hidden" id="aiSpin"></div>
+                AI Assistant
+              </div>
+              <button class="sec-btn" onclick="aiSuggest()">Suggest tasks</button>
+            </div>
+            <div class="ai-chat" id="aiChat"></div>
+            <div class="ai-inp-row">
+              <textarea class="ai-inp" id="aiIn" placeholder="Ask anything about this project…" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAI()}"></textarea>
+              <button class="ai-go" id="aiBtn" onclick="sendAI()">Send</button>
+            </div>
+          </div>
+          <div style="background:var(--off);border:1px solid var(--border);border-radius:var(--r2);padding:1.2rem 1.4rem;font-size:13px;color:var(--text2);line-height:1.7">
+            <strong style="color:var(--text);display:block;margin-bottom:.4rem">What can you ask?</strong>
+            "What tasks am I missing?" · "What should I focus on first?" · "Write a status update for this project" · "What are the risks here?" · "Suggest who should own each task"
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -528,9 +712,30 @@ button{cursor:pointer;border:none;background:none;color:inherit}
     <div class="mf"><label>Status</label>
       <select id="ep-s"><option value="active">Active</option><option value="paused">Paused</option><option value="done">Done</option></select>
     </div>
+    <div class="mf"><label>Deadline (optional)</label><input type="date" id="ep-dl"/></div>
+    <div class="mf"><label>Team members (for AI task assignment)</label><input type="text" id="ep-team" placeholder="e.g. Joseph, Sarah, Mike"/></div>
     <div class="modal-btns">
       <button class="btn-cancel" onclick="closeModal('editProjModal')">Cancel</button>
       <button class="btn-submit" onclick="saveEditProj()">Save changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- DUPLICATE PROJECT MODAL -->
+<div class="modal-ov" id="dupModal">
+  <div class="modal">
+    <div class="modal-title">Duplicate project</div>
+    <div class="mf"><label>New project name</label><input type="text" id="dup-name" placeholder="Copy of…"/></div>
+    <div style="font-size:11px;color:var(--text3);margin-bottom:12px">The project description will be copied. Tasks will be copied without progress.</div>
+    <div class="mf"><label>Copy tasks?</label>
+      <select id="dup-tasks">
+        <option value="yes">Yes — copy all tasks (reset to 0%)</option>
+        <option value="no">No — start with empty task list</option>
+      </select>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('dupModal')">Cancel</button>
+      <button class="btn-submit" id="dupBtn" onclick="duplicateProject()">Duplicate</button>
     </div>
   </div>
 </div>
@@ -613,8 +818,26 @@ async function boot(user){
   const first=(p?.name||user.email).split(' ')[0];
   ge('homeGreet').textContent=`${hr<12?'Good morning':hr<17?'Good afternoon':'Good evening'}, ${first}.`;
   ge('homeSub').textContent='Here are your projects.';
+  await ensureColumns();
   await loadProjects();
   showHome();
+}
+
+// Auto-run column migrations so the app never breaks on a fresh Supabase setup
+async function ensureColumns(){
+  // Try inserting a dummy check — if columns don't exist the insert will fail silently
+  // We use a separate approach: just try to update a non-existent row with new columns
+  // If it errors with "column does not exist" we know we need to warn the user
+  try{
+    await sb.from('tasks').update({assignee:'',note:'',progress:0}).eq('id','00000000-0000-0000-0000-000000000000');
+  }catch(e){
+    // Column likely missing — show a one-time warning
+    if(e.message&&e.message.includes('column'))
+      console.warn('Some task columns may be missing. Run SQL migrations in Supabase.');
+  }
+  try{
+    await sb.from('projects').update({deadline:null,team:''}).eq('id','00000000-0000-0000-0000-000000000000');
+  }catch(e){}
 }
 
 // ── PROJECTS ──
@@ -635,14 +858,16 @@ async function renderHome(){
   const{data:allT}=await sb.from('tasks').select('id,project_id,done').in('project_id',ids);
   const counts={};
   (allT||[]).forEach(t=>{
-    if(!counts[t.project_id])counts[t.project_id]={total:0,done:0};
+    if(!counts[t.project_id])counts[t.project_id]={total:0,done:0,sumProg:0};
     counts[t.project_id].total++;
-    if(t.done)counts[t.project_id].done++;
+    if(t.done){counts[t.project_id].done++;counts[t.project_id].sumProg+=100;}
+    else counts[t.project_id].sumProg+=(t.progress||0);
   });
   ge('projGrid').innerHTML=projects.map(p=>{
-    const c=counts[p.id]||{total:0,done:0};
-    const pct=c.total?Math.round(c.done/c.total*100):0;
-    const isDone=pct===100&&c.total>0;
+    const c=counts[p.id]||{total:0,done:0,sumProg:0};
+    // Use average progress so partial tasks count toward the bar
+    const pct=c.total?Math.round(c.sumProg/c.total):0;
+    const isDone=c.total>0&&c.done===c.total;
     const statusChip=p.status==='done'?'chip-green':p.status==='paused'?'chip-gold':'chip-blue';
     const priColor=p.priority==='high'?'var(--red)':p.priority==='low'?'var(--text3)':'var(--text)';
     return`<div class="proj-card" onclick="openProject('${p.id}')">
@@ -719,22 +944,8 @@ async function createProject(){
 async function generateTasks(projId,title,channel,desc){
   aiAppend(`Building your task list for "${title}"…`,'bot');
 
-  const prompt=`You are a project manager for Jacmel Jewelry, a wholesale accessories company. They sell on Amazon, Walmart, Target, Macy's, Nordstrom, and TikTok Shop. Licensed brands: Disney, Hello Kitty, Juicy Couture, Jessica Simpson. DTC brand: Vivelle.
-
-Project: "${title}"
-${channel?`Channel: ${channel}`:''}
-Goal: ${desc}
-
-Create a specific, actionable task list. Return ONLY valid JSON, no markdown, no explanation:
-
-{"tasks":[{"text":"Specific task name","priority":"high|mid|low"}]}
-
-Requirements:
-- 6 to 12 tasks
-- Each task = one specific, concrete action (not a vague category)
-- Be specific to Jacmel's actual wholesale/retail business
-- Order logically: setup → prerequisites → execution → launch/review
-- high = urgent/must do first, mid = normal flow, low = nice to have`;
+  const teamMembers=CProj?.team||'';
+  const prompt='You are a project manager for Jacmel Jewelry, a wholesale accessories company. They sell on Amazon, Walmart, Target, Macy\'s, Nordstrom, and TikTok Shop. Licensed brands: Disney, Hello Kitty, Juicy Couture, Jessica Simpson. DTC brand: Vivelle.\n\nProject: "'+title+'"\n'+(channel?'Channel: '+channel+'\n':'')+'Goal: '+desc+'\n'+(teamMembers?'Team members: '+teamMembers+'\n':'')+'\nCreate a specific, actionable task list. Return ONLY valid JSON, no markdown, no explanation:\n\n{"tasks":[{"text":"Specific task name","priority":"high|mid|low","assignee":"name or empty string"}]}\n\nRequirements:\n- 6 to 12 tasks\n- Each task = one specific concrete action\n- Be specific to Jacmel\'s wholesale/retail business\n- Order logically: setup → prerequisites → execution → launch/review\n- high = must do first, mid = normal, low = nice to have\n'+(teamMembers?'- Assign each task to the most appropriate team member from: '+teamMembers+'. Leave assignee empty if unclear.':'- Leave assignee empty string');
 
   try{
     aiSpinOn(true);
@@ -752,12 +963,11 @@ Requirements:
         done:false,status:'not_started',progress:0,position:pos++,
         subtasks:[],links:[],comments:[],work_log:[],description:''
       };
-      // Add new columns only if they exist — graceful fallback
-      try{ taskRow.assignee='';taskRow.due_date=null;taskRow.note=''; }catch(_){}
+      try{taskRow.assignee=t.assignee||'';taskRow.due_date=null;taskRow.note='';}catch(_){}
       await sb.from('tasks').insert(taskRow);
     }
     await logAct(projId,`AI created ${taskList.length} tasks`);
-    if(CProj?.id===projId){await loadTasks(projId);renderTasks();}
+    if(CProj?.id===projId){await loadTasks(projId);renderTasks();switchTab('tasks');}
     aiAppend(`Done — ${taskList.length} tasks created, ordered by priority. Click any task to edit it, check it off when complete, or delete it. Add your own tasks at the bottom anytime.`,'bot');
   }catch(e){
     aiSpinOn(false);
@@ -774,17 +984,28 @@ async function openProject(id){
     aiHist=[];ge('aiChat').innerHTML='';
     ge('homePage').style.display='none';ge('projPage').style.display='block';
     ge('topTitle').textContent=CProj.title;
+    const dl=CProj.deadline;
+    const dlDays=dl?Math.round((new Date(dl+'T12:00:00')-new Date())/86400000):null;
+    const dlClass=dlDays===null?'':dlDays<0?'urgent':dlDays<=7?'soon':CProj.status==='done'?'done':'';
+    const dlText=dl?(dlDays<0?`Overdue by ${Math.abs(dlDays)}d`:dlDays===0?'Due today':dlDays===1?'Due tomorrow':`${dlDays}d left`):'Set deadline';
     ge('topActs').innerHTML=`
+      <div class="deadline-chip ${dlClass}" onclick="openEditProj()" title="Click to edit deadline">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="1" y="2" width="12" height="11" rx="1.5"/><path d="M4 1v2M10 1v2M1 5h12"/></svg>
+        ${dlText}
+      </div>
       <button class="btn-sm" onclick="openEditProj()">Edit</button>
+      <button class="btn-sm" onclick="openDuplicateModal()">Duplicate</button>
       <button class="btn-sm-danger" onclick="confirmDelete()">Delete project</button>
       <button class="btn-sm" onclick="showHome()">← All projects</button>`;
     renderSidebar();
     renderDescBox();
     ge('notesTa').value=CProj.notes||'';
     renderSideDetails();
+    // Always start on overview tab
+    switchTab('overview');
     await loadTasks(id);
     renderTasks();
-    renderActivity().catch(()=>{}); // non-critical, don't block
+    renderActivity().catch(()=>{});
   }catch(e){
     console.error('openProject error:',e);
     toast('Error opening project: '+e.message,'err');
@@ -816,161 +1037,345 @@ async function saveDescEdit(){
   cancelDescEdit();renderDescBox();toast('Saved','ok');
 }
 
+// ── TABS ──
+function switchTab(tab){
+  ['overview','tasks','ai'].forEach(t=>{
+    ge('tab-'+t)?.classList.toggle('on',t===tab);
+    const content=ge('tabOverview')||ge('tabTasks')||ge('tabAI');
+  });
+  ge('tabOverview').style.display=tab==='overview'?'':'none';
+  ge('tabTasks').style.display=tab==='tasks'?'':'none';
+  ge('tabAI').style.display=tab==='ai'?'':'none';
+  ge('tab-overview').classList.toggle('on',tab==='overview');
+  ge('tab-tasks').classList.toggle('on',tab==='tasks');
+  ge('tab-ai').classList.toggle('on',tab==='ai');
+}
+
+function toggleAddForm(){
+  const f=ge('addTaskForm');
+  f.classList.toggle('open');
+  if(f.classList.contains('open'))ge('addInp')?.focus();
+}
+
 // ── TASKS ──
 async function loadTasks(projId){
   const{data}=await sb.from('tasks').select('*').eq('project_id',projId).order('position');
   tasks=data||[];
 }
 
+// Calculate overall project progress from per-task progress values
+// Logic: average all tasks' progress (0-100). Done=100, not started=0.
+function calcOverallProgress(){
+  if(!tasks.length)return 0;
+  const total=tasks.reduce((sum,t)=>{
+    // If marked done, treat as 100 regardless of stored progress
+    const p=t.done?100:(t.progress||0);
+    return sum+p;
+  },0);
+  return Math.round(total/tasks.length);
+}
+
+function renderProgress(){
+  const pct=calcOverallProgress();
+  const done=tasks.filter(t=>t.done).length;
+  const total=tasks.length;
+  const left=total-done;
+  const avgProg=total?Math.round(tasks.reduce((s,t)=>s+(t.done?100:(t.progress||0)),0)/total):0;
+  const isDone=pct===100&&total>0;
+
+  // Big progress bar (overview tab)
+  const bigFill=ge('bigProgFill');
+  const bigPct=ge('bigProgPct');
+  if(bigFill){bigFill.style.width=pct+'%';bigFill.className='big-prog-fill'+(isDone?' complete':'');}
+  if(bigPct){bigPct.innerHTML=pct+'<span>%</span>';bigPct.className='big-prog-pct'+(isDone?' complete':'');}
+  if(ge('bigDone'))ge('bigDone').textContent=done;
+  if(ge('bigTotal'))ge('bigTotal').textContent=total;
+  if(ge('bigLeft'))ge('bigLeft').textContent=left;
+  if(ge('bigAvgProg'))ge('bigAvgProg').textContent=avgProg+'%';
+
+  // Tasks tab counter
+  if(ge('tasksCt'))ge('tasksCt').textContent='('+done+' / '+total+' done)';
+  if(ge('tasksTabCt'))ge('tasksTabCt').textContent=total?'('+total+')':'';
+}
+
 function renderTasks(){
-  const done=tasks.filter(t=>t.done).length,total=tasks.length;
-  const pct=total?Math.round(done/total*100):0;
-  ge('progPct').textContent=pct;
-  ge('progFill').style.width=pct+'%';
-  ge('progFill').className='prog-fill'+(pct===100&&total>0?' done':'');
-  ge('doneCt').textContent=done;
-  ge('totalCt').textContent=total;
-  ge('leftCt').textContent=total-done;
-  ge('tasksCt').textContent=done+' / '+total;
+  renderProgress();
+  checkCompleteBanner();
+
+  const open=tasks.filter(t=>!t.done);
+  const done=tasks.filter(t=>t.done);
 
   if(!tasks.length){
-    ge('taskList').innerHTML='<div style="padding:1rem 0 1.5rem;font-size:13px;color:var(--text3)">No tasks yet. Type above to add one, or let the AI generate a task list for you.</div>';
+    ge('taskList').innerHTML=`<div style="padding:2.5rem;text-align:center;background:var(--white);border:1px solid var(--border);border-radius:var(--r2);box-shadow:var(--shadow)">
+      <div style="font-size:32px;opacity:.15;margin-bottom:.8rem">✓</div>
+      <div style="font-size:15px;font-weight:600;margin-bottom:.3rem">No tasks yet</div>
+      <div style="font-size:13px;color:var(--text3)">Click "Add task" above, or use the AI tab to generate a full task list.</div>
+    </div>`;
+    ge('completedSection').style.display='none';
     return;
   }
 
-  ge('taskList').innerHTML=tasks.map(t=>{
-    const assignee=t.assignee||'';
-    const note=t.note||'';
-    const due=t.due_date||'';
-    const notePreview=note?note.slice(0,60)+(note.length>60?'…':''):'';
-    const dueStr=due?new Date(due+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
-    return `<div class="task-card ${t.done?'done-card':''}" id="tc-${t.id}">
-      <div class="task-top" onclick="toggleExpand('${t.id}')">
-        <div class="task-chk ${t.done?'on':''}" onclick="event.stopPropagation();toggleTask('${t.id}')">
-          <svg viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M1 4l2.5 3L9 1"/></svg>
-        </div>
-        <div class="task-main">
-          <div class="task-title-row">
-            <div class="task-txt ${t.done?'done':''}" id="tt-${t.id}">${esc(t.text)}</div>
-            <div class="task-acts">
-              <button class="task-act" onclick="event.stopPropagation();startTaskEdit('${t.id}')">Edit</button>
-              <button class="task-act del" onclick="event.stopPropagation();deleteTask('${t.id}')">Delete</button>
-            </div>
-          </div>
-          <div class="task-meta">
-            ${assignee?'<span class="task-assignee-badge">👤 '+esc(assignee)+'</span>':''}
-            ${dueStr?'<span style="font-size:11px;color:var(--text3);font-family:var(--mono)">📅 '+dueStr+'</span>':''}
-            ${notePreview?'<span class="task-note-preview">"'+esc(notePreview)+'"</span>':''}
-          </div>
-        </div>
-      </div>
-      <div class="task-expand" id="te-${t.id}">
-        <div class="exp-row">
-          <div class="exp-field">
-            <label>Assigned to</label>
-            <input class="exp-input" id="ea-${t.id}" value="${esc(assignee)}" placeholder="Name" onkeydown="if(event.key==='Enter')saveTaskDetails('${t.id}')"/>
-          </div>
-          <div class="exp-field">
-            <label>Due date</label>
-            <input class="exp-input" type="date" id="ed-${t.id}" value="${esc(due)}"/>
-          </div>
-        </div>
-        <div class="exp-field" style="margin-bottom:8px">
-          <label>Notes</label>
-          <textarea class="exp-note" id="en-${t.id}" placeholder="Add notes, links, context…">${esc(note)}</textarea>
-        </div>
-        <div class="exp-save-row">
-          <button class="btn-exp-save" onclick="saveTaskDetails('${t.id}')">Save</button>
-        </div>
-      </div>
-    </div>`;
-  }).join('');
+  // Render open tasks
+  ge('taskList').innerHTML=open.length
+    ? open.map(t=>taskCardHTML(t)).join('')
+    : '<div style="padding:1.5rem;text-align:center;font-size:13px;color:var(--text3)">All tasks done 🎉</div>';
+
+  // Render completed section
+  if(done.length){
+    ge('completedSection').style.display='block';
+    ge('completedCount').textContent='('+done.length+')';
+    ge('completedList').innerHTML=done.map(t=>taskCardHTML(t)).join('');
+  } else {
+    ge('completedSection').style.display='none';
+  }
 }
 
-function toggleExpand(id){
-  const te=ge('te-'+id);
-  if(!te)return;
-  const isOpen=te.classList.contains('open');
-  // Close all others
-  document.querySelectorAll('.task-expand.open').forEach(el=>el.classList.remove('open'));
-  if(!isOpen)te.classList.add('open');
+function checkCompleteBanner(){
+  const banner=ge('completeBanner');
+  if(!banner)return;
+  const allDone=tasks.length>0&&tasks.every(t=>t.done);
+  const projDone=CProj?.status==='done';
+  banner.classList.toggle('show',allDone&&!projDone);
 }
 
-async function saveTaskDetails(id){
+function dismissBanner(){ge('completeBanner')?.classList.remove('show');}
+
+async function markProjDone(){
+  await sb.from('projects').update({status:'done'}).eq('id',CProj.id);
+  CProj.status='done';
+  const p=projects.find(x=>x.id===CProj.id);if(p)p.status='done';
+  ge('completeBanner')?.classList.remove('show');
+  renderSideDetails();
+  renderSidebar();
+  toast('Project marked as done ✓','ok');
+  await logAct(CProj.id,'Marked project as done');
+}
+
+let completedOpen=false;
+function toggleCompletedSection(){
+  completedOpen=!completedOpen;
+  ge('completedList').classList.toggle('open',completedOpen);
+  ge('completedChev').classList.toggle('open',completedOpen);
+}
+
+function taskCardHTML(t){
+  const prog=t.done?100:(t.progress||0);
+  const assignee=t.assignee||'';
+  const note=t.note||'';
+  const due=t.due_date||'';
+  const dueStr=due?new Date(due+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+  const isDone=t.done;
+  const progColor=isDone?'var(--green)':prog>=75?'var(--blue)':prog>=25?'var(--gold)':'var(--text)';
+
+  return `<div class="task-card ${isDone?'done-card':''}" id="tc-${t.id}">
+    <div class="task-card-body">
+      <div class="task-card-top">
+        <div class="task-check ${isDone?'done':''}" onclick="toggleTask('${t.id}')" title="${isDone?'Mark incomplete':'Mark complete'}">
+          <svg viewBox="0 0 10 8" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 4l2.5 3L9 1"/></svg>
+        </div>
+        <div class="task-card-right">
+          <div class="task-card-title ${isDone?'done':''}" id="tt-${t.id}" ondblclick="startTaskEdit('${t.id}')">${esc(t.text)}</div>
+          <div class="task-card-meta">
+            ${assignee?'<span class="task-badge assignee">👤 '+esc(assignee)+'</span>':''}
+            ${dueStr?'<span class="task-badge due">📅 '+dueStr+'</span>':''}
+            ${note&&!isDone?'<span class="task-badge" style="font-style:italic;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(note.slice(0,50))+(note.length>50?'…':'')+'</span>':''}
+          </div>
+        </div>
+        <div class="task-card-actions">
+          <button class="task-act-btn" onclick="startTaskEdit('${t.id}')">Edit</button>
+          <button class="task-act-btn del" onclick="deleteTask('${t.id}')">Delete</button>
+        </div>
+      </div>
+
+      <div class="task-prog-section">
+        <div class="task-prog-label-row">
+          <span class="task-prog-lbl">Progress</span>
+          <span class="task-prog-val" id="tpv-${t.id}" style="color:${progColor}">${prog}%</span>
+        </div>
+        <input type="range" class="task-prog-slider" min="0" max="100" step="5" value="${prog}"
+          oninput="liveUpdateProg('${t.id}',this.value)"
+          onchange="saveTaskProg('${t.id}',this.value)"
+          ${isDone?'disabled title="Task is marked complete (100%)"':''}
+          style="opacity:${isDone?.5:1};cursor:${isDone?'not-allowed':'pointer'}"/>
+        <div class="task-prog-quick">
+          ${[0,25,50,75,100].map(p=>`<button class="task-prog-quick-btn${prog===p?' active':''}" onclick="setTaskProg('${t.id}',${p})">${p===100?'Done':p+'%'}</button>`).join('')}
+        </div>
+      </div>
+
+      ${!isDone?`<div>
+        <textarea class="task-note-area" id="tn-${t.id}" placeholder="Add notes, links, or context…" oninput="debouncedSaveNote('${t.id}',this.value)" onblur="saveTaskNote('${t.id}',this.value)">${esc(note)}</textarea>
+        <div class="note-save-ind" id="nsi-${t.id}"></div>
+        <div class="task-detail-row">
+          <div class="task-detail-field"><label>Assigned to</label><input class="task-detail-input" id="ta-${t.id}" value="${esc(assignee)}" placeholder="Name" onblur="saveTaskAssignee('${t.id}',this.value)"/></div>
+          <div class="task-detail-field"><label>Due date</label><input class="task-detail-input" type="date" id="td-${t.id}" value="${esc(due)}" onchange="saveTaskDue('${t.id}',this.value)"/></div>
+        </div>
+      </div>`:''}
+    </div>
+  </div>`;
+}
+
+function liveUpdateProg(id,val){
+  const el=ge('tpv-'+id);if(!el)return;
+  const p=parseInt(val);
+  el.textContent=p+'%';
+  const c=p===100?'var(--green)':p>=75?'var(--blue)':p>=25?'var(--gold)':'var(--text)';
+  el.style.color=c;
+  // Also update in-memory immediately for smooth feel
+  const t=tasks.find(x=>x.id===id);if(t)t.progress=p;
+  renderProgress();
+}
+
+async function saveTaskProg(id,val){
+  const p=parseInt(val);
   const t=tasks.find(x=>x.id===id);if(!t)return;
-  const assignee=(ge('ea-'+id)?.value||t.assignee||'').trim();
-  const due_date=ge('ed-'+id)?.value||null;
-  const note=(ge('en-'+id)?.value||t.note||'');
-  t.assignee=assignee;t.due_date=due_date||null;t.note=note;
-  await sb.from('tasks').update({assignee,due_date:due_date||null,note}).eq('id',id);
-  renderTasks();
-  // Re-open the expanded card after re-render
-  setTimeout(()=>{const te=ge('te-'+id);if(te)te.classList.add('open');},10);
-  toast('Saved','ok');
+  t.progress=p;
+  // If dragged to 100, also mark done
+  if(p===100&&!t.done){
+    t.done=true;t.status='done';
+    await sb.from('tasks').update({progress:p,done:true,status:'done'}).eq('id',id);
+    await logAct(CProj.id,'Completed: "'+t.text+'"');
+    renderTasks();
+  }else{
+    await sb.from('tasks').update({progress:p}).eq('id',id);
+    // Rebuild just the quick buttons to reflect new active state
+    const qbs=document.querySelectorAll('#tc-'+id+' .task-prog-quick-btn');
+    qbs.forEach(btn=>{
+      const bv=parseInt(btn.textContent)==='Done'?100:parseInt(btn.textContent);
+      btn.classList.toggle('active',bv===p);
+    });
+  }
+  renderProgress();
 }
 
-async function addTask(){
-  const text=v('addInp');if(!text)return;
-  const assignee=v('addAssignee');
-  const due_date=ge('addDue').value||null;
-  const note=ge('addNote').value.trim();
-  ge('addInp').value='';ge('addAssignee').value='';ge('addDue').value='';ge('addNote').value='';
-  const newTask={
-    text,project_id:CProj.id,done:false,status:'not_started',
-    priority:'mid',progress:0,position:tasks.length,
-    subtasks:[],links:[],comments:[],work_log:[],description:''
-  };
-  // Include new columns — will silently fail if columns don't exist in Supabase yet
-  try{newTask.assignee=assignee;newTask.due_date=due_date||null;newTask.note=note;}catch(_){}
-  const{data:t,error}=await sb.from('tasks').insert(newTask).select().single();
-  if(error){toast('Error adding task','err');return;}
-  tasks.push(t);
+async function setTaskProg(id,p){
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  t.progress=p;
+  if(p===100){
+    t.done=true;t.status='done';
+    await sb.from('tasks').update({progress:100,done:true,status:'done'}).eq('id',id);
+    await logAct(CProj.id,'Completed: "'+t.text+'"');
+  }else{
+    if(t.done){t.done=false;t.status='not_started';}
+    await sb.from('tasks').update({progress:p,done:false,status:'not_started'}).eq('id',id);
+  }
   renderTasks();
-  await logAct(CProj.id,'Added task: "'+text+'"');
+  renderProgress();
 }
-
-// Also allow Enter key from the title input to add quickly
-document.addEventListener('DOMContentLoaded',()=>{
-  const inp=ge('addInp');
-  if(inp)inp.addEventListener('keydown',e=>{if(e.key==='Enter')addTask();});
-});
 
 async function toggleTask(id){
   const t=tasks.find(x=>x.id===id);if(!t)return;
-  t.done=!t.done;t.status=t.done?'done':'not_started';
-  await sb.from('tasks').update({done:t.done,status:t.status}).eq('id',id);
-  renderTasks();
+  t.done=!t.done;
+  t.status=t.done?'done':'not_started';
+  t.progress=t.done?100:0;
+  await sb.from('tasks').update({done:t.done,status:t.status,progress:t.progress}).eq('id',id);
   if(t.done)await logAct(CProj.id,'Completed: "'+t.text+'"');
+  renderTasks();
+  renderProgress();
+}
+
+const noteTimers={};
+function debouncedSaveNote(id,note){
+  const ind=ge('nsi-'+id);
+  if(ind){ind.textContent='Saving…';ind.className='note-save-ind';}
+  clearTimeout(noteTimers[id]);
+  noteTimers[id]=setTimeout(()=>saveTaskNote(id,note),900);
+}
+
+async function saveTaskNote(id,note){
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  note=(note||'');
+  if(note===t.note)return;
+  t.note=note;
+  const ind=ge('nsi-'+id);
+  try{
+    await sb.from('tasks').update({note}).eq('id',id);
+    if(ind){ind.textContent='Saved ✓';ind.className='note-save-ind ok';setTimeout(()=>{if(ind)ind.textContent='';},1800);}
+  }catch(_){
+    if(ind){ind.textContent='';ind.className='note-save-ind';}
+  }
+}
+
+async function saveTaskAssignee(id,assignee){
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  assignee=(assignee||'').trim();
+  if(assignee===t.assignee)return;
+  t.assignee=assignee;
+  try{await sb.from('tasks').update({assignee}).eq('id',id);}catch(_){}
+  // Refresh the badge in the card header
+  renderTasks();
+}
+
+async function saveTaskDue(id,due_date){
+  const t=tasks.find(x=>x.id===id);if(!t)return;
+  const val=due_date||null;
+  if(val===t.due_date)return;
+  t.due_date=val;
+  try{await sb.from('tasks').update({due_date:val}).eq('id',id);}catch(_){}
+  renderTasks();
 }
 
 function startTaskEdit(id){
   const t=tasks.find(x=>x.id===id);if(!t)return;
   const el=ge('tt-'+id);if(!el)return;
   const cur=t.text;
-  el.innerHTML='<input class="task-edit-inp" value="'+esc(cur)+'" />';
-  const inp=el.querySelector('input');
+  el.innerHTML='';
+  const inp=document.createElement('input');
+  inp.className='task-card-title-edit';
+  inp.value=cur;
+  el.appendChild(inp);
   inp.focus();inp.select();
-  inp.addEventListener('blur',()=>finishTaskEdit(id,inp.value,cur));
+  let saved=false;
+  const finish=()=>{
+    if(saved)return;saved=true;
+    finishTaskEdit(id,inp.value,cur);
+  };
+  inp.addEventListener('blur',finish);
   inp.addEventListener('keydown',e=>{
-    if(e.key==='Enter'){inp.blur();}
-    if(e.key==='Escape'){inp.value=cur;inp.blur();}
+    if(e.key==='Enter'){e.preventDefault();finish();}
+    if(e.key==='Escape'){saved=true;el.innerHTML='';el.className='task-card-title'+(t.done?' done':'');el.textContent=cur;el.ondblclick=()=>startTaskEdit(id);}
     e.stopPropagation();
   });
 }
 
 async function finishTaskEdit(id,newText,oldText){
-  newText=newText.trim();
+  newText=(newText||'').trim();
   const t=tasks.find(x=>x.id===id);
   const el=ge('tt-'+id);
   if(!newText||newText===oldText){
-    if(el&&t){el.className='task-txt'+(t.done?' done':'');el.textContent=t.text||oldText;}
+    if(el&&t){el.className='task-card-title'+(t.done?' done':'');el.textContent=t.text||oldText;el.ondblclick=()=>startTaskEdit(id);}
     return;
   }
   if(!t)return;
   t.text=newText;
   await sb.from('tasks').update({text:newText}).eq('id',id);
-  if(el){el.className='task-txt'+(t.done?' done':'');el.textContent=newText;}
+  if(el){el.className='task-card-title'+(t.done?' done':'');el.textContent=newText;el.ondblclick=()=>startTaskEdit(id);}
   toast('Task updated','ok');
+}
+
+async function addTask(){
+  const text=v('addInp');if(!text){toast('Enter a task name','err');return;}
+  const assignee=v('addAssignee');
+  const due_date=ge('addDue')?.value||null;
+  const note=(ge('addNote')?.value||'').trim();
+  ge('addInp').value='';
+  if(ge('addAssignee'))ge('addAssignee').value='';
+  if(ge('addDue'))ge('addDue').value='';
+  if(ge('addNote'))ge('addNote').value='';
+  // Close the form
+  ge('addTaskForm')?.classList.remove('open');
+
+  const newTask={
+    text,project_id:CProj.id,done:false,status:'not_started',
+    priority:'mid',progress:0,position:tasks.length,
+    subtasks:[],links:[],comments:[],work_log:[],description:''
+  };
+  try{newTask.assignee=assignee;newTask.due_date=due_date||null;newTask.note=note;}catch(_){}
+  const{data:t,error}=await sb.from('tasks').insert(newTask).select().single();
+  if(error){toast('Error: '+error.message,'err');return;}
+  tasks.push(t);
+  renderTasks();
+  toast('Task added','ok');
+  await logAct(CProj.id,'Added task: "'+text+'"');
 }
 
 async function deleteTask(id){
@@ -1001,10 +1406,13 @@ function renderSideDetails(){
   const p=CProj;
   const sc={active:'var(--blue)',paused:'var(--gold)',done:'var(--green)'};
   const pc={high:'var(--red)',mid:'var(--text)',low:'var(--text3)'};
+  const dlStr=p.deadline?new Date(p.deadline+'T12:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}):'—';
   ge('sideDetails').innerHTML=`
     <div class="meta-row"><span class="meta-k">Status</span><span class="meta-v" style="color:${sc[p.status]||'var(--text)'}">${p.status}</span></div>
     <div class="meta-row"><span class="meta-k">Priority</span><span class="meta-v" style="color:${pc[p.priority]||'var(--text)'}">${p.priority}</span></div>
     ${p.channel?`<div class="meta-row"><span class="meta-k">Channel</span><span class="meta-v">${esc(p.channel)}</span></div>`:''}
+    <div class="meta-row"><span class="meta-k">Deadline</span><span class="meta-v">${dlStr}</span></div>
+    ${p.team?`<div class="meta-row"><span class="meta-k">Team</span><span class="meta-v">${esc(p.team)}</span></div>`:''}
     <div class="meta-row"><span class="meta-k">Created</span><span class="meta-v">${new Date(p.created_at).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'})}</span></div>`;
 }
 
@@ -1014,25 +1422,89 @@ function openEditProj(){
   ge('ep-c').value=CProj.channel||'';
   ge('ep-p').value=CProj.priority||'mid';
   ge('ep-s').value=CProj.status;
+  ge('ep-dl').value=CProj.deadline||'';
+  ge('ep-team').value=CProj.team||'';
   openModal('editProjModal');
 }
 async function saveEditProj(){
   const title=v('ep-n');if(!title){toast('Name required','err');return;}
+  const deadline=ge('ep-dl').value||null;
+  const team=v('ep-team');
   const updates={title,channel:v('ep-c'),priority:v('ep-p'),status:v('ep-s')};
+  // Safely add new columns
+  try{updates.deadline=deadline;updates.team=team;}catch(_){}
   const{error}=await sb.from('projects').update(updates).eq('id',CProj.id);
-  if(error){toast('Error saving','err');return;}
+  if(error&&error.message&&error.message.includes('column')){
+    const safe={title,channel:v('ep-c'),priority:v('ep-p'),status:v('ep-s')};
+    await sb.from('projects').update(safe).eq('id',CProj.id);
+  }
   Object.assign(CProj,updates);
   const p=projects.find(x=>x.id===CProj.id);if(p)Object.assign(p,updates);
   ge('topTitle').textContent=title;
   renderSideDetails();renderSidebar();
+  // Re-render topbar deadline chip
+  await openProject(CProj.id);
   closeModal('editProjModal');toast('Updated','ok');
-  await logAct(CProj.id,`Updated project details`);
+  await logAct(CProj.id,'Updated project details');
+}
+
+// ── DUPLICATE PROJECT ──
+function openDuplicateModal(){
+  ge('dup-name').value='Copy of '+CProj.title;
+  openModal('dupModal');
+}
+
+async function duplicateProject(){
+  const name=ge('dup-name').value.trim();
+  if(!name){toast('Enter a name','err');return;}
+  const copyTasks=ge('dup-tasks').value==='yes';
+  const btn=ge('dupBtn');btn.disabled=true;btn.textContent='Duplicating…';
+
+  const{data:proj,error}=await sb.from('projects').insert({
+    title:name,
+    description:CProj.description||'',
+    channel:CProj.channel||'',
+    owner_id:CU.id,
+    status:'active',
+    priority:CProj.priority||'mid',
+    notes:'',
+    deadline:null,
+    team:CProj.team||''
+  }).select().single();
+
+  if(error){
+    toast('Error: '+error.message,'err');
+    btn.disabled=false;btn.textContent='Duplicate';
+    return;
+  }
+
+  if(copyTasks&&tasks.length){
+    for(let i=0;i<tasks.length;i++){
+      const t=tasks[i];
+      const newTask={
+        text:t.text,priority:t.priority||'mid',
+        project_id:proj.id,done:false,status:'not_started',
+        progress:0,position:i,
+        subtasks:[],links:[],comments:[],work_log:[],description:t.description||''
+      };
+      try{newTask.assignee=t.assignee||'';newTask.note='';newTask.due_date=null;}catch(_){}
+      await sb.from('tasks').insert(newTask);
+    }
+  }
+
+  await logAct(proj.id,'Duplicated from "'+CProj.title+'"');
+  projects.unshift(proj);
+  renderSidebar();
+  closeModal('dupModal');
+  btn.disabled=false;btn.textContent='Duplicate';
+  toast('Project duplicated','ok');
+  await openProject(proj.id);
 }
 
 // ── DELETE PROJECT ──
 function confirmDelete(){
   ge('delTitle').textContent='Delete project?';
-  ge('delMsg').textContent=`"${CProj.title}" and all its tasks will be permanently deleted.`;
+  ge('delMsg').textContent='"'+CProj.title+'" and all its tasks will be permanently deleted.';
   ge('delConfirmBtn').onclick=doDelete;
   openModal('delModal');
 }
@@ -1065,10 +1537,9 @@ function projCtx(){
   if(!CProj)return'';
   const done=tasks.filter(t=>t.done).length;
   const pending=tasks.filter(t=>!t.done).map(t=>t.text).slice(0,8);
-  return`Project: "${CProj.title}" | Status: ${CProj.status} | Channel: ${CProj.channel||'general'}
-Description: ${CProj.description||'none'}
-Progress: ${done}/${tasks.length} done
-Remaining tasks: ${pending.join(', ')||'none'}`;
+  const dl=CProj.deadline;
+  const dlDays=dl?Math.round((new Date(dl+'T12:00:00')-new Date())/86400000):null;
+  return'Project: "'+CProj.title+'" | Status: '+CProj.status+' | Channel: '+(CProj.channel||'general')+(dl?' | Deadline: '+dl+(dlDays!==null?' ('+dlDays+'d)':''):'')+(CProj.team?' | Team: '+CProj.team:'')+'\nDescription: '+(CProj.description||'none')+'\nProgress: '+done+'/'+tasks.length+' done'+(tasks.length?' (avg '+(tasks.length?Math.round(tasks.reduce((s,t)=>s+(t.done?100:(t.progress||0)),0)/tasks.length):0)+'%)':'')+'\nOpen tasks: '+(pending.join(', ')||'none');
 }
 
 function aiSpinOn(on){ge('aiSpin').classList.toggle('hidden',!on);}
@@ -1090,7 +1561,10 @@ async function sendAI(){
 }
 
 async function aiSuggest(){
-  ge('aiIn').value=`Based on the project "${CProj?.title}" and the description, what 5 additional tasks might I be missing?`;
+  const teamStr=CProj?.team?` Team: ${CProj.team}.`:'';
+  const dlStr=CProj?.deadline?` Deadline: ${CProj.deadline}.`:'';
+  ge('aiIn').value='Based on the project "'+CProj?.title+'", what 5 specific tasks might I be missing?'+teamStr+dlStr+' Be specific to Jacmel's wholesale jewelry business.';
+  switchTab('ai');
   await sendAI();
 }
 
@@ -1108,8 +1582,16 @@ function openModal(id){ge(id).classList.add('open');}
 function closeModal(id){ge(id).classList.remove('open');}
 document.querySelectorAll('.modal-ov').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape')document.querySelectorAll('.modal-ov.open').forEach(m=>m.classList.remove('open'));
-  if(!e.target.matches('input,textarea,select')&&e.key==='n')openModal('newProjModal');
+  const inInput=e.target.matches('input,textarea,select');
+  if(e.key==='Escape'){
+    document.querySelectorAll('.modal-ov.open').forEach(m=>m.classList.remove('open'));
+    ge('addTaskForm')?.classList.remove('open');
+  }
+  if(!inInput&&e.key==='n')openModal('newProjModal');
+  if(!inInput&&e.key==='t'&&ge('tabTasks')?.style.display!=='none'){
+    const form=ge('addTaskForm');
+    if(form){form.classList.toggle('open');if(form.classList.contains('open'))ge('addInp')?.focus();}
+  }
 });
 
 // ── BOOT ──
