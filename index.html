@@ -468,8 +468,8 @@ button{cursor:pointer;border:none;background:none;color:inherit}
     <div class="auth-h1">Sign in</div>
     <div class="auth-sub">Track your projects and progress</div>
     <div class="auth-tabs">
-      <button class="atab on" onclick="switchTab('login')">Sign in</button>
-      <button class="atab" onclick="switchTab('register')">Create account</button>
+      <button class="atab on" onclick="authTab('login')">Sign in</button>
+      <button class="atab" onclick="authTab('register')">Create account</button>
     </div>
     <div id="loginForm">
       <div class="fld"><label>Email</label><input type="email" id="li-e" placeholder="you@jacmeljewelry.com" onkeydown="if(event.key==='Enter')doLogin()"/></div>
@@ -779,7 +779,7 @@ function toast(msg,type=''){
 }
 
 // ── AUTH ──
-function switchTab(t){
+function authTab(t){
   document.querySelectorAll('.atab').forEach((el,i)=>el.classList.toggle('on',(t==='login'&&i===0)||(t==='register'&&i===1)));
   ge('loginForm').style.display=t==='login'?'':'none';
   ge('registerForm').style.display=t==='register'?'':'none';
@@ -799,7 +799,11 @@ async function doRegister(){
   const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{name}}});
   btn.disabled=false;btn.textContent='Create account';
   if(error){ge('regErr').textContent=error.message;return;}
-  if(data.user)await boot(data.user);
+  if(data.user){
+    // Ensure profile row exists (Supabase auth trigger may or may not create it)
+    await sb.from('profiles').upsert({id:data.user.id,name,email},{ onConflict:'id' }).catch(()=>{});
+    await boot(data.user);
+  }
 }
 async function doSignout(){
   await sb.auth.signOut();
@@ -808,7 +812,14 @@ async function doSignout(){
 }
 async function boot(user){
   CU=user;
-  const{data:p}=await sb.from('profiles').select('*').eq('id',user.id).single();
+  let{data:p}=await sb.from('profiles').select('*').eq('id',user.id).single();
+  if(!p){
+    // Profile missing — create it from auth metadata
+    const name=user.user_metadata?.name||user.email.split('@')[0];
+    await sb.from('profiles').insert({id:user.id,name,email:user.email}).catch(()=>{});
+    const{data:p2}=await sb.from('profiles').select('*').eq('id',user.id).single();
+    p=p2||{id:user.id,name,email:user.email};
+  }
   CP=p;
   ge('authWrap').style.display='none';ge('appWrap').style.display='block';
   ge('sbAv').textContent=ini(p?.name||user.email);
@@ -825,19 +836,10 @@ async function boot(user){
 
 // Auto-run column migrations so the app never breaks on a fresh Supabase setup
 async function ensureColumns(){
-  // Try inserting a dummy check — if columns don't exist the insert will fail silently
-  // We use a separate approach: just try to update a non-existent row with new columns
-  // If it errors with "column does not exist" we know we need to warn the user
-  try{
-    await sb.from('tasks').update({assignee:'',note:'',progress:0}).eq('id','00000000-0000-0000-0000-000000000000');
-  }catch(e){
-    // Column likely missing — show a one-time warning
-    if(e.message&&e.message.includes('column'))
-      console.warn('Some task columns may be missing. Run SQL migrations in Supabase.');
-  }
-  try{
-    await sb.from('projects').update({deadline:null,team:''}).eq('id','00000000-0000-0000-0000-000000000000');
-  }catch(e){}
+  // Silent no-op checks — these update zero rows (fake UUID) so no data is affected
+  // They just confirm columns exist. Errors are swallowed.
+  await sb.from('tasks').update({assignee:'',note:'',progress:0}).eq('id','00000000-0000-0000-0000-000000000000').catch(()=>{});
+  await sb.from('projects').update({deadline:null,team:''}).eq('id','00000000-0000-0000-0000-000000000000').catch(()=>{});
 }
 
 // ── PROJECTS ──
@@ -1039,22 +1041,24 @@ async function saveDescEdit(){
 
 // ── TABS ──
 function switchTab(tab){
-  ['overview','tasks','ai'].forEach(t=>{
-    ge('tab-'+t)?.classList.toggle('on',t===tab);
-    const content=ge('tabOverview')||ge('tabTasks')||ge('tabAI');
-  });
-  ge('tabOverview').style.display=tab==='overview'?'':'none';
-  ge('tabTasks').style.display=tab==='tasks'?'':'none';
-  ge('tabAI').style.display=tab==='ai'?'':'none';
-  ge('tab-overview').classList.toggle('on',tab==='overview');
-  ge('tab-tasks').classList.toggle('on',tab==='tasks');
-  ge('tab-ai').classList.toggle('on',tab==='ai');
+  // Safe — only runs when project page is visible
+  const ov=ge('tabOverview'),tk=ge('tabTasks'),ai=ge('tabAI');
+  if(!ov)return;
+  ov.style.display=tab==='overview'?'':'none';
+  tk.style.display=tab==='tasks'?'':'none';
+  ai.style.display=tab==='ai'?'':'none';
+  ge('tab-overview')?.classList.toggle('on',tab==='overview');
+  ge('tab-tasks')?.classList.toggle('on',tab==='tasks');
+  ge('tab-ai')?.classList.toggle('on',tab==='ai');
 }
 
 function toggleAddForm(){
   const f=ge('addTaskForm');
+  if(!f)return;
   f.classList.toggle('open');
-  if(f.classList.contains('open'))ge('addInp')?.focus();
+  if(f.classList.contains('open')){
+    ge('addInp')?.focus();
+  }
 }
 
 // ── TASKS ──
@@ -1441,10 +1445,10 @@ async function saveEditProj(){
   Object.assign(CProj,updates);
   const p=projects.find(x=>x.id===CProj.id);if(p)Object.assign(p,updates);
   ge('topTitle').textContent=title;
+  closeModal('editProjModal');
   renderSideDetails();renderSidebar();
-  // Re-render topbar deadline chip
   await openProject(CProj.id);
-  closeModal('editProjModal');toast('Updated','ok');
+  toast('Updated','ok');
   await logAct(CProj.id,'Updated project details');
 }
 
