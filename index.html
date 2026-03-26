@@ -785,61 +785,80 @@ function authTab(t){
   ge('registerForm').style.display=t==='register'?'':'none';
 }
 async function doLogin(){
-  const btn=ge('loginBtn');btn.disabled=true;btn.textContent='Signing in…';
-  const{data,error}=await sb.auth.signInWithPassword({email:v('li-e'),password:v('li-p')});
-  btn.disabled=false;btn.textContent='Sign in';
-  if(error){ge('loginErr').textContent=error.message;return;}
-  await boot(data.user);
+  const btn=ge('loginBtn');
+  btn.disabled=true;btn.textContent='Signing in…';
+  ge('loginErr').textContent='';
+  try{
+    const{data,error}=await sb.auth.signInWithPassword({email:v('li-e'),password:v('li-p')});
+    if(error){ge('loginErr').textContent=error.message;btn.disabled=false;btn.textContent='Sign in';return;}
+    if(!data?.user){ge('loginErr').textContent='No user returned. Try again.';btn.disabled=false;btn.textContent='Sign in';return;}
+    await boot(data.user);
+  }catch(e){
+    ge('loginErr').textContent='Error: '+e.message;
+    btn.disabled=false;btn.textContent='Sign in';
+  }
 }
+
 async function doRegister(){
   const name=v('rn'),email=v('re'),pass=v('rp');
+  ge('regErr').textContent='';
   if(!name||!email||!pass){ge('regErr').textContent='All fields required.';return;}
   if(pass.length<6){ge('regErr').textContent='Password needs at least 6 characters.';return;}
   const btn=ge('regBtn');btn.disabled=true;btn.textContent='Creating…';
-  const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{name}}});
-  btn.disabled=false;btn.textContent='Create account';
-  if(error){ge('regErr').textContent=error.message;return;}
-  if(data.user){
-    // Ensure profile row exists (Supabase auth trigger may or may not create it)
-    await sb.from('profiles').upsert({id:data.user.id,name,email},{ onConflict:'id' }).catch(()=>{});
+  try{
+    const{data,error}=await sb.auth.signUp({email,password:pass,options:{data:{name}}});
+    if(error){ge('regErr').textContent=error.message;btn.disabled=false;btn.textContent='Create account';return;}
+    if(!data?.user){ge('regErr').textContent='Signup failed. Try again.';btn.disabled=false;btn.textContent='Create account';return;}
+    // Try to create profile — ignore errors, boot will handle it
+    await sb.from('profiles').upsert({id:data.user.id,name,email}).catch(()=>{});
     await boot(data.user);
+  }catch(e){
+    ge('regErr').textContent='Error: '+e.message;
+    btn.disabled=false;btn.textContent='Create account';
   }
-}
-async function doSignout(){
-  await sb.auth.signOut();
-  ge('appWrap').style.display='none';ge('authWrap').style.display='flex';
-  CU=null;CP=null;CProj=null;projects=[];tasks=[];
-}
-async function boot(user){
-  CU=user;
-  let{data:p}=await sb.from('profiles').select('*').eq('id',user.id).single();
-  if(!p){
-    // Profile missing — create it from auth metadata
-    const name=user.user_metadata?.name||user.email.split('@')[0];
-    await sb.from('profiles').insert({id:user.id,name,email:user.email}).catch(()=>{});
-    const{data:p2}=await sb.from('profiles').select('*').eq('id',user.id).single();
-    p=p2||{id:user.id,name,email:user.email};
-  }
-  CP=p;
-  ge('authWrap').style.display='none';ge('appWrap').style.display='block';
-  ge('sbAv').textContent=ini(p?.name||user.email);
-  ge('sbAv').className=`av ${avCls(p?.name||user.email)}`;
-  ge('sbName').textContent=p?.name||user.email;
-  const hr=new Date().getHours();
-  const first=(p?.name||user.email).split(' ')[0];
-  ge('homeGreet').textContent=`${hr<12?'Good morning':hr<17?'Good afternoon':'Good evening'}, ${first}.`;
-  ge('homeSub').textContent='Here are your projects.';
-  await ensureColumns();
-  await loadProjects();
-  showHome();
 }
 
-// Auto-run column migrations so the app never breaks on a fresh Supabase setup
-async function ensureColumns(){
-  // Silent no-op checks — these update zero rows (fake UUID) so no data is affected
-  // They just confirm columns exist. Errors are swallowed.
-  await sb.from('tasks').update({assignee:'',note:'',progress:0}).eq('id','00000000-0000-0000-0000-000000000000').catch(()=>{});
-  await sb.from('projects').update({deadline:null,team:''}).eq('id','00000000-0000-0000-0000-000000000000').catch(()=>{});
+async function doSignout(){
+  await sb.auth.signOut().catch(()=>{});
+  ge('appWrap').style.display='none';
+  ge('authWrap').style.display='flex';
+  CU=null;CP=null;CProj=null;projects=[];tasks=[];
+}
+
+async function boot(user){
+  try{
+    CU=user;
+    // Get display name — fall back gracefully if profiles table is inaccessible
+    const displayName=user.user_metadata?.name||user.email.split('@')[0]||'User';
+    let profileName=displayName;
+    try{
+      const{data:p}=await sb.from('profiles').select('name').eq('id',user.id).single();
+      if(p?.name)profileName=p.name;
+      else{
+        await sb.from('profiles').upsert({id:user.id,name:displayName,email:user.email}).catch(()=>{});
+      }
+    }catch(_){/* profiles table may not be accessible — continue anyway */}
+    CP={name:profileName,email:user.email,id:user.id};
+
+    // Show the app
+    ge('authWrap').style.display='none';
+    ge('appWrap').style.display='block';
+    ge('sbAv').textContent=ini(profileName);
+    ge('sbAv').className='av '+avCls(profileName);
+    ge('sbName').textContent=profileName;
+    const hr=new Date().getHours();
+    ge('homeGreet').textContent=(hr<12?'Good morning':hr<17?'Good afternoon':'Good evening')+', '+(profileName.split(' ')[0])+'.';
+    ge('homeSub').textContent='Here are your projects.';
+
+    await loadProjects();
+    await showHome();
+  }catch(e){
+    console.error('Boot error:',e);
+    // Show the error on the login screen so it's visible
+    ge('loginErr').textContent='Login error: '+e.message+'. Please try again.';
+    ge('authWrap').style.display='flex';
+    ge('appWrap').style.display='none';
+  }
 }
 
 // ── PROJECTS ──
@@ -895,11 +914,15 @@ function renderSidebar(){
 }
 
 async function showHome(){
-  CProj=null;
-  ge('homePage').style.display='block';ge('projPage').style.display='none';
-  ge('topTitle').textContent='Projects';ge('topActs').innerHTML='';
-  renderSidebar();
-  await renderHome();
+  try{
+    CProj=null;
+    ge('homePage').style.display='block';
+    ge('projPage').style.display='none';
+    ge('topTitle').textContent='Projects';
+    ge('topActs').innerHTML='';
+    renderSidebar();
+    await renderHome();
+  }catch(e){console.error('showHome error:',e);}
 }
 
 // ── CREATE PROJECT ──
@@ -1600,8 +1623,14 @@ document.addEventListener('keydown',e=>{
 
 // ── BOOT ──
 (async()=>{
-  const{data:{session}}=await sb.auth.getSession();
-  if(session?.user)await boot(session.user);
+  try{
+    const{data,error}=await sb.auth.getSession();
+    if(error)throw error;
+    if(data?.session?.user)await boot(data.session.user);
+  }catch(e){
+    console.error('Session error:',e);
+    // Stay on auth screen — user will log in manually
+  }
 })();
 </script>
 </body>
