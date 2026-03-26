@@ -667,12 +667,12 @@ function renderSidebar(){
   }).join('');
 }
 
-function showHome(){
+async function showHome(){
   CProj=null;
   ge('homePage').style.display='block';ge('projPage').style.display='none';
   ge('topTitle').textContent='Projects';ge('topActs').innerHTML='';
   renderSidebar();
-  renderHome(); // render from in-memory projects array immediately
+  await renderHome();
 }
 
 // ── CREATE PROJECT ──
@@ -1022,7 +1022,8 @@ async function doDelete(){
   await sb.from('activity').delete().eq('project_id',id);
   await sb.from('projects').delete().eq('id',id);
   projects=projects.filter(p=>p.id!==id);
-  toast('Project deleted');showHome();
+  toast('Project deleted');
+  await showHome();
 }
 
 // ── ACTIVITY ──
